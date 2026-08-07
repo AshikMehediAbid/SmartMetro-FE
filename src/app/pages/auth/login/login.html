@@ -1,1 +1,47 @@
-<p>login works!</p>
+<div class="auth-container">
+  <form>
+    <h2>Login</h2>
+
+    <div class="form-group">
+      <label for="phoneNumber">Phone Number</label>
+      <input
+        type="tel"
+        id="phoneNumber"
+        name="phoneNumber"
+        [(ngModel)]="loginObj.phoneNumber"
+        required
+        placeholder="01XXXXXXXXX"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="passWord">Password</label>
+      <input
+        type="password"
+        id="passWord"
+        name="passWord"
+        [(ngModel)]="loginObj.password"
+        required
+        placeholder="Enter your password"
+      />
+    </div>
+
+    <div class="form-group form-checkbox">
+      <input
+        type="checkbox"
+        id="rememberMe"
+        name="rememberMe"
+        [(ngModel)]="loginObj.rememberMe"
+      />
+      <label for="rememberMe">Remember me</label>
+    </div>
+
+    <button class="btn btn-success btn-sm"  (click)="onLogin()">
+      Login
+    </button>
+
+    <p class="auth-switch">
+      Don't have an account? <a (click)="onRegisterClick()">Register</a>
+    </p>
+  </form>
+</div>
