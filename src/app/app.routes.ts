@@ -4,6 +4,7 @@ import { Login } from './pages/auth/login/login';
 import { Register } from './pages/auth/register/register';
 import { VerifyEmail } from './pages/auth/verify-email/verify-email';
 import { UserProfile } from './pages/auth/user-profile/user-profile';
+import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
     {
@@ -29,6 +30,7 @@ export const routes: Routes = [
     },
     {
         path: 'user-profile',
-        component: UserProfile
+        component: UserProfile,
+        canActivate: [authGuard]
     }
 ];

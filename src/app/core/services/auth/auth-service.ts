@@ -43,6 +43,47 @@ export class AuthService {
     });
   }
 
+  getNewAccessToken() {
+    return this.http.post<ApiResponse<{ accessToken: string }>>(
+      'https://localhost:7246/api/account/token',
+      {},
+      { withCredentials: true },
+    );
+  }
+
+  getAccessToken(): string | null {
+    return localStorage.getItem('accessToken');
+  }
+
+  private getTokenPayload(token: string | null) {
+    if (!token) {
+      return null;
+    }
+
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      return null;
+    }
+
+    try {
+      const payload = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+      return JSON.parse(atob(payload));
+    } catch {
+      return null;
+    }
+  }
+
+  isAccessTokenExpired(token?: string): boolean {
+    const accessToken = token ?? this.getAccessToken();
+    const payload = this.getTokenPayload(accessToken);
+
+    if (!payload || typeof payload.exp !== 'number') {
+      return true;
+    }
+
+    return payload.exp * 1000 <= Date.now();
+  }
+
   saveToken(token: string) {
     if (!token) {
       return;
@@ -50,11 +91,16 @@ export class AuthService {
 
     localStorage.setItem('accessToken', token);
 
-    const payload = token.split('.')[1];
-    const decodedPayload = atob(payload);
-    const userInfo = JSON.parse(decodedPayload);
+    const payload = token.split('.')[1] ?? '';
 
-    localStorage.setItem('user', JSON.stringify(userInfo));
+    debugger;
+    try {
+      const decodedPayload = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+      const userInfo = JSON.parse(decodedPayload);
+      localStorage.setItem('user', JSON.stringify(userInfo));
+    } catch {
+      localStorage.removeItem('user');
+    }
   }
 
   clearStorage() {
