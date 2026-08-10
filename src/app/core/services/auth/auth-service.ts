@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { ApiResponse, LoginModel, LoginResponse } from '../../../pages/auth/login/login';
+import { ChangePasswordModel } from '../../../pages/auth/user-profile/user-profile';
 
 @Service()
 export class AuthService {
@@ -10,11 +11,24 @@ export class AuthService {
     return this.http.post<ApiResponse<LoginResponse>>(
       'https://localhost:7246/api/account/login',
       loginObject,
+      { withCredentials: true },
     );
   }
 
   userLogout() {
-    return this.http.post<ApiResponse<any>>('https://localhost:7246/api/account/logout', {});
+    return this.http.post<ApiResponse<any>>(
+      'https://localhost:7246/api/account/logout',
+      {},
+      { withCredentials: true },
+    );
+  }
+
+  changePassword(changePasswordObj: ChangePasswordModel) {
+    return this.http.post<ApiResponse<any>>(
+      'https://localhost:7246/api/account/change-password',
+      changePasswordObj,
+      { withCredentials: true },
+    );
   }
 
   verifyEmail(email: string, otp: string) {

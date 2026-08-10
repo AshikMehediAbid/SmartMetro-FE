@@ -3,6 +3,7 @@ import { Home } from './pages/home/home';
 import { Login } from './pages/auth/login/login';
 import { Register } from './pages/auth/register/register';
 import { VerifyEmail } from './pages/auth/verify-email/verify-email';
+import { UserProfile } from './pages/auth/user-profile/user-profile';
 
 export const routes: Routes = [
     {
@@ -25,5 +26,9 @@ export const routes: Routes = [
     {
         path: 'verify-email',
         component: VerifyEmail
-    }   
+    },
+    {
+        path: 'user-profile',
+        component: UserProfile
+    }
 ];

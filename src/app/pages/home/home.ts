@@ -1,6 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth-service';
+import { ToastService } from '../../core/services/toast/toast-service';
 
 @Component({
   selector: 'app-home',
@@ -11,15 +12,27 @@ import { AuthService } from '../../core/services/auth/auth-service';
 export class Home implements OnInit {
   router = inject(Router);
   private _authService = inject(AuthService);
-  isLogin: boolean = false;
+  private toastService = inject(ToastService);
+  isLogin = signal<boolean>(false);
+  userName = signal<string>('');
 
-  ngOnInit(){
-    this.isLoggedIn();
+  ngOnInit() {
+    this.loadUserName();
   }
-  isLoggedIn(): boolean {
-    this.isLogin =  this._authService.isLoggedIn();
-    return this.isLogin;
+
+  private loadUserName(): void {
+    const loggedIn = this._authService.isLoggedIn();
+    this.isLogin.set(loggedIn);
+
+    if (!loggedIn) {
+      this.userName.set('');
+      return;
+    }
+
+    const userInfo = this._authService.getUserInfo();
+    this.userName.set(userInfo?.['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] ?? 'Profile');
   }
+
   onLoginClick() {
     this.router.navigate(['/login']);
   }
@@ -29,17 +42,28 @@ export class Home implements OnInit {
   }
 
   onLogoutClick() {
+    const finalizeLogout = () => {
+      this._authService.clearStorage();
+      this.isLogin.set(this._authService.isLoggedIn());
+      this.userName.set('');
+      this.router.navigate(['/home']);
+    };
+
     this._authService.userLogout().subscribe({
       next: (response) => {
-        alert(response.message);
-        this._authService.clearStorage();
-        debugger;
-        this.isLogin = false;
-        this.router.navigate(['home']);
+        if (response?.message) {
+          this.toastService.success(response.message);
+        }
+        finalizeLogout();
       },
       error: (error) => {
-        alert(error.error?.message ?? 'Logout failed. Please try again.');
+        this.toastService.error(error.error?.message ?? 'Logout failed. Please try again.');
+        finalizeLogout();
       },
     });
+  }
+
+  onProfileClick() {
+    this.router.navigate(['/user-profile']);
   }
 }

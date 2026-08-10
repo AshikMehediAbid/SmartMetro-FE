@@ -3,11 +3,12 @@
     <a>MyApp</a>
   </div>
   <div class="navbar-actions">
-    @if (!isLogin) {
+    @if (!isLogin()) {
       <button class="btn btn-login" (click)="onLoginClick()">Login</button>
       <button class="btn btn-register" (click)="onRegisterClick()">Register</button>
     } 
     @else {
+      <button class="btn btn-logout" (click)="onProfileClick()">{{userName()}}</button>
       <button class="btn btn-logout" (click)="onLogoutClick()">Logout</button>
     }
   </div>

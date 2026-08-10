@@ -1,0 +1,276 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+}
+.navbar-brand a {
+  font-weight: 600;
+  font-size: 1.25rem;
+  text-decoration: none;
+  color: #1a1a1a;
+}
+
+.navbar-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+.profile-page {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  background: #f5f7fb;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 650px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.avatar {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1976d2, #42a5f5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.profile-header h2 {
+  margin: 0 0 6px;
+  color: #222;
+  font-size: 24px;
+}
+
+.profile-header p {
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.profile-details {
+  margin-top: 25px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid #f0f0f0;
+  gap: 20px;
+}
+
+.detail-label {
+  color: #777;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.detail-value {
+  color: #222;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.role-badge {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.profile-actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-btn {
+  border: none;
+  background: #1976d2;
+  color: white;
+  padding: 11px 22px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.edit-btn:hover {
+  background: #1565c0;
+}
+
+.loading {
+  padding: 40px 0;
+  text-align: center;
+  color: #777;
+}
+
+@media (max-width: 600px) {
+  .profile-page {
+    padding: 20px 10px;
+  }
+
+  .profile-card {
+    padding: 20px;
+  }
+
+  .detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .detail-value {
+    text-align: left;
+  }
+
+  .profile-actions {
+    justify-content: stretch;
+  }
+
+  .edit-btn {
+    width: 100%;
+  }
+
+}
+
+
+.change-password-section {
+  margin-top: 25px;
+  padding: 24px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.change-password-header {
+  margin-bottom: 22px;
+}
+
+.change-password-header h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.change-password-header p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  gap: 20px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-control {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 13px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+}
+
+.form-control::placeholder {
+  color: #9ca3af;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .form-group {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+}
+
+
+.password-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
+}
+
+.update-password-btn {
+  border: none;
+  background: #1976d2;
+  color: #ffffff;
+  padding: 11px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.update-password-btn:hover {
+  background: #1565c0;
+}
+
+.update-password-btn:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 600px) {
+  .change-password-section {
+    padding: 18px;
+  }
+
+  .password-actions {
+    justify-content: stretch;
+  }
+
+  .update-password-btn {
+    width: 100%;
+  }
+}
