@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth/auth-service';
 import { Router } from '@angular/router';
+import { OtpVerificationType } from '../../../core/enums/OtpVerificationType';
 
 @Component({
   selector: 'app-login',
@@ -29,9 +30,10 @@ export class Login {
 
         // Email Not Verified
         if (!loginData.isEmailVerified && loginData.isEmailSent) {
-          this.router.navigate(['/verify-email'], {
+          this.router.navigate(['/verify-otp'], {
             queryParams: {
               email: loginData.accessToken,
+              type: OtpVerificationType.EMAIL_VERIFICATION
             },
           });
           return;
@@ -57,6 +59,10 @@ export class Login {
 
   onRegisterClick() {
     this.router.navigate(['/register']);
+  }
+
+  onRecoveryPasswordClick(){
+    this.router.navigate(['/recover-password']);
   }
 }
 

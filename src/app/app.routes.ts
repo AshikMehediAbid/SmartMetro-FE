@@ -5,6 +5,8 @@ import { Register } from './pages/auth/register/register';
 import { VerifyEmail } from './pages/auth/verify-email/verify-email';
 import { UserProfile } from './pages/auth/user-profile/user-profile';
 import { authGuard } from './core/guards/auth-guard';
+import { RecoverPassword } from './pages/auth/recover-password/recover-password';
+import { VerifyOtp } from './pages/verify-otp/verify-otp';
 
 export const routes: Routes = [
     {
@@ -32,5 +34,14 @@ export const routes: Routes = [
         path: 'user-profile',
         component: UserProfile,
         canActivate: [authGuard]
+    },
+    {
+        path: 'recover-password',
+        component: RecoverPassword,
+    },
+    {
+        path: 'verify-otp',
+        component: VerifyOtp,
     }
+    
 ];

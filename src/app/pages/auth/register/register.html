@@ -1,1 +1,96 @@
-<p>register works!</p>
+<div class="register-page">
+  <div class="register-card">
+    <div class="register-header">
+      <h2>Create Account</h2>
+      <p>Register to get started with Smart Metro Service.</p>
+    </div>
+
+    <form>
+      <!-- Name -->
+      <div class="form-group">
+        <label for="name">Full Name</label>
+
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Enter your full name"
+          [(ngModel)]="registerObj().name"
+          required
+        />
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="Enter your email"
+          [(ngModel)]="registerObj().email"
+          required
+        />
+      </div>
+
+      <!-- Phone Number -->
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number</label>
+
+        <input
+          id="phoneNumber"
+          name="phoneNumber"
+          type="tel"
+          placeholder="Enter your phone number"
+          [(ngModel)]="registerObj().phoneNumber"
+          required
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+
+        <input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Enter your password"
+          [(ngModel)]="registerObj().password"
+          required
+        />
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+
+        <input
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          placeholder="Confirm your password"
+          [(ngModel)]="registerObj().confirmPassword"
+          required
+        />
+      </div>
+
+      <!-- Register Button -->
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="register-btn"
+          [disabled]="registerObj().password !== registerObj().confirmPassword"
+          (click)="onRegisterClick()"
+        >
+          Create Account
+        </button>
+      </div>
+      <div class="login-link">
+        <span>Already have an account?</span>
+        <a routerLink="/login">Login</a>
+      </div>
+    </form>
+  </div>
+</div>

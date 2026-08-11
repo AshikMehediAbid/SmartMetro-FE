@@ -2,10 +2,21 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { ApiResponse, LoginModel, LoginResponse } from '../../../pages/auth/login/login';
 import { ChangePasswordModel } from '../../../pages/auth/user-profile/user-profile';
+import { RegisterModel } from '../../../pages/auth/register/register';
+import { OtpVerificationType } from '../../enums/OtpVerificationType';
+import { OtpVerificationModel } from '../../../pages/verify-otp/verify-otp';
 
 @Service()
 export class AuthService {
   http = inject(HttpClient);
+
+  userRegister(registerObject: RegisterModel) {
+    return this.http.post<ApiResponse<any>>(
+      'https://localhost:7246/api/account/register',
+      registerObject,
+      { withCredentials: true },
+    );
+  }
 
   userLogin(loginObject: LoginModel) {
     return this.http.post<ApiResponse<LoginResponse>>(
@@ -43,6 +54,13 @@ export class AuthService {
     });
   }
 
+  verifyOTP(otpVerificationObj: OtpVerificationModel) {
+    //const params = new HttpParams()
+    //.set('email', email)
+    //.set('otp', otp);
+    debugger;
+    return this.http.post<ApiResponse<any>>('https://localhost:7246/api/account/verify-otp', otpVerificationObj);
+  }
   getNewAccessToken() {
     return this.http.post<ApiResponse<{ accessToken: string }>>(
       'https://localhost:7246/api/account/token',
@@ -120,5 +138,22 @@ export class AuthService {
 
     const userInfo = JSON.parse(userInfoString);
     return userInfo;
+  }
+
+  getUserProfile(email: string) {
+    return this.http.get<ApiResponse<any>>('https://localhost:7246/api/account/user-profile', {
+      params: { email },
+    });
+  }
+
+  recoverPassword(email: string) {
+    return this.http.get<ApiResponse<any>>('https://localhost:7246/api/account/recover-password', {
+      params: { email },
+    });
+  }
+
+  resendOtp(reqObj: OtpVerificationModel) {
+    debugger;
+    return this.http.post<ApiResponse<any>>('https://localhost:7246/api/account/resend-otp',reqObj);
   }
 }

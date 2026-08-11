@@ -1,0 +1,170 @@
+.register-page {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  background: #f5f7fb;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 650px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.register-header {
+  margin-bottom: 30px;
+}
+
+.register-header h2 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.register-header p {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Form */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  align-items: center;
+  gap: 20px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 13px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #111827;
+
+  font-size: 14px;
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder {
+  color: #9ca3af;
+}
+
+.form-group input:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+}
+
+/* Button */
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.register-btn {
+  border: none;
+  padding: 11px 24px;
+
+  border-radius: 8px;
+
+  background: #1976d2;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+.register-btn:hover:not(:disabled) {
+  background: #1565c0;
+}
+
+.register-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.register-btn:disabled {
+  background: #b9cbe0;
+  cursor: not-allowed;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+  .register-page {
+    padding: 20px 10px;
+  }
+
+  .register-card {
+    padding: 22px;
+  }
+
+  .form-group {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .form-actions {
+    justify-content: stretch;
+  }
+
+  .register-btn {
+    width: 100%;
+  }
+}
+
+.login-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.login-link a {
+  color: #1976d2;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
