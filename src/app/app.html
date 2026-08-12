@@ -1,2 +1,23 @@
+<div class="app-layout">
+  @if (isLoggedIn()) {
+    <aside class="sidebar" [class.collapsed]="!sidebarOpened()">
+      <div class="sidebar-header">
+        <h2 *ngIf="sidebarOpened()"></h2>
+        <button class="menu-toggle" type="button" (click)="toggleSidebar()">
+          {{ sidebarOpened() ? '☰' : 'Menu' }}
+        </button>
+      </div>
+      <nav *ngIf="sidebarOpened()">
+        <a routerLink="/home" routerLinkActive="active">Home</a>
+        <a routerLink="/user-profile" routerLinkActive="active">Profile</a>
+        <a *ngIf="isAdmin()" routerLink="/stations" routerLinkActive="active">Station Management</a>
+      </nav>
+    </aside>
+  }
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
 <app-toast />
-<router-outlet></router-outlet>

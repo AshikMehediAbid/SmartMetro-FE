@@ -1,7 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StationService } from '../../../core/services/station/station-service';
 import { Router } from '@angular/router';
+import { StationModel } from '../station-list/station-list';
 
 @Component({
   selector: 'app-create-station',
@@ -9,8 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './create-station.html',
   styleUrl: './create-station.css',
 })
-export class CreateStation {
-
+export class CreateStation implements OnDestroy {
   stationService = inject(StationService);
   router = inject(Router);
 
@@ -25,9 +25,37 @@ export class CreateStation {
     distanceFromNextStation: 0,
   });
 
-    onCreateStationClick() {
-    this.stationService.createStation(this.stationObj()).subscribe({
+  stations = signal<StationModel[]>([]);
+  selectedInsertAfter = 0;
+
+  ngOnInit(): void {
+    this.loadStations();
+  }
+
+  ngOnDestroy(): void {
+    this.clearForm();
+  }
+
+  loadStations(): void {
+    this.stationService.getAllStations(1).subscribe({
       next: (response) => {
+        this.stations.set(response.data ?? []);
+      },
+      error: (error) => {
+        console.error('Failed to load stations for insert order', error);
+      },
+    });
+  }
+
+  onCreateStationClick() {
+    const payload: CreateStationModel = {
+      ...this.stationObj(),
+      insertAfter: this.selectedInsertAfter,
+    };
+
+    this.stationService.createStation(payload).subscribe({
+      next: (response) => {
+        this.clearForm();
         this.router.navigate(['/stations']);
       },
       error: (error) => {
@@ -35,7 +63,48 @@ export class CreateStation {
       },
     });
   }
-  
+
+  getSelectedStation(): StationModel | null {
+    return this.stations().find((station) => station.stationOrder === this.selectedInsertAfter) ?? null;
+  }
+
+  getNextStation(): StationModel | null {
+    if (this.selectedInsertAfter === 0) {
+      return this.stations()[0] ?? null;
+    }
+
+    return this.stations().find((station) => station.stationOrder > this.selectedInsertAfter) ?? null;
+  }
+
+  showPreviousDistance(): boolean {
+    return this.selectedInsertAfter > 0;
+  }
+
+  showNextDistance(): boolean {
+    return !!this.getNextStation();
+  }
+
+  getPreviousStationName(): string {
+    return this.getSelectedStation()?.stationName ?? '';
+  }
+
+  getNextStationName(): string {
+    return this.getNextStation()?.stationName ?? 'next station';
+  }
+
+  clearForm(): void {
+    this.stationObj.set({
+      stationName: '',
+      stationLocation: '',
+      lat: 0,
+      long: 0,
+      isActive: true,
+      insertAfter: 0,
+      distanceFromPreviousStation: 0,
+      distanceFromNextStation: 0,
+    });
+    this.selectedInsertAfter = 0;
+  }
 }
 
 export interface CreateStationModel {

@@ -1,16 +1,13 @@
 <div class="container py-5">
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10">
-
       <div class="card shadow-sm border-0">
         <div class="card-header bg-primary text-white py-3">
           <h4 class="mb-0">Create Station</h4>
         </div>
 
         <div class="card-body p-4">
-
           <form (ngSubmit)="onCreateStationClick()">
-
             <!-- Station Name -->
             <div class="mb-3">
               <label for="stationName" class="form-label">
@@ -30,9 +27,7 @@
 
             <!-- Station Location -->
             <div class="mb-3">
-              <label for="stationLocation" class="form-label">
-                Station Location
-              </label>
+              <label for="stationLocation" class="form-label"> Station Location </label>
 
               <input
                 type="text"
@@ -47,9 +42,7 @@
             <!-- Latitude / Longitude -->
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label for="lat" class="form-label">
-                  Latitude
-                </label>
+                <label for="lat" class="form-label"> Latitude </label>
 
                 <input
                   type="number"
@@ -62,9 +55,7 @@
               </div>
 
               <div class="col-md-6 mb-3">
-                <label for="long" class="form-label">
-                  Longitude
-                </label>
+                <label for="long" class="form-label"> Longitude </label>
 
                 <input
                   type="number"
@@ -79,54 +70,63 @@
 
             <!-- Insert After -->
             <div class="mb-3">
-              <label for="insertAfter" class="form-label">
-                Insert After
-              </label>
+              <label for="insertAfter" class="form-label"> Insert After </label>
 
-              <input
-                type="number"
+              <select
                 id="insertAfter"
                 name="insertAfter"
-                class="form-control"
-                [(ngModel)]="stationObj().insertAfter"
-              />
+                class="form-select"
+                [(ngModel)]="selectedInsertAfter"
+                required
+              >
+                <option [ngValue]="0">At the beginning</option>
+                @for (station of stations(); track station.stationId) {
+                  <option [ngValue]="station.stationOrder">
+                    {{ station.stationOrder }} - {{ station.stationName }}
+                  </option>
+                }
+              </select>
 
               <div class="form-text">
-                Enter the station ID after which this station should be inserted.
+                Choose where to insert the new station in the existing station order.
               </div>
             </div>
 
             <!-- Distances -->
             <div class="row">
-              <div class="col-md-6 mb-3">
-                <label for="distanceFromPreviousStation" class="form-label">
-                  Distance From Previous Station
-                </label>
+              @if (showPreviousDistance()) {
+                <div class="col-md-6 mb-3">
+                  <label for="distanceFromPreviousStation" class="form-label">
+                    Distance From {{ getPreviousStationName() || 'previous station' }}
+                  </label>
 
-                <input
-                  type="number"
-                  id="distanceFromPreviousStation"
-                  name="distanceFromPreviousStation"
-                  class="form-control"
-                  step="any"
-                  [(ngModel)]="stationObj().distanceFromPreviousStation"
-                />
-              </div>
+                  <input
+                    type="number"
+                    id="distanceFromPreviousStation"
+                    name="distanceFromPreviousStation"
+                    class="form-control"
+                    step="any"
+                    [(ngModel)]="stationObj().distanceFromPreviousStation"
+                  />
+                </div>
+              }
 
-              <div class="col-md-6 mb-3">
-                <label for="distanceFromNextStation" class="form-label">
-                  Distance From Next Station
-                </label>
+              @if (showNextDistance()) {
+                <div class="col-md-6 mb-3">
+                  <label for="distanceFromNextStation" class="form-label">
+                    Distance From {{ getNextStationName() }}
+                  </label>
 
-                <input
-                  type="number"
-                  id="distanceFromNextStation"
-                  name="distanceFromNextStation"
-                  class="form-control"
-                  step="any"
-                  [(ngModel)]="stationObj().distanceFromNextStation"
-                />
-              </div>
+                  <input
+                    type="number"
+                    id="distanceFromNextStation"
+                    name="distanceFromNextStation"
+                    class="form-control"
+                    step="any"
+                    [(ngModel)]="stationObj().distanceFromNextStation"
+                  />
+                </div>
+              }
             </div>
 
             <!-- Active -->
@@ -139,33 +139,18 @@
                 [(ngModel)]="stationObj().isActive"
               />
 
-              <label class="form-check-label" for="isActive">
-                Active Station
-              </label>
+              <label class="form-check-label" for="isActive"> Active Station </label>
             </div>
 
             <!-- Buttons -->
             <div class="d-flex justify-content-end gap-2">
-              <a
-                routerLink="/stations"
-                class="btn btn-outline-secondary"
-              >
-                Cancel
-              </a>
+              <a routerLink="/stations" class="btn btn-outline-secondary"> Cancel </a>
 
-              <button
-                type="submit"
-                class="btn btn-primary"
-              >
-                Create Station
-              </button>
+              <button type="submit" class="btn btn-primary">Create Station</button>
             </div>
-
           </form>
-
         </div>
       </div>
-
     </div>
   </div>
 </div>
