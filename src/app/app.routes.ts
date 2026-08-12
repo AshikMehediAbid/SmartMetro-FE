@@ -7,6 +7,8 @@ import { UserProfile } from './pages/auth/user-profile/user-profile';
 import { authGuard } from './core/guards/auth-guard';
 import { RecoverPassword } from './pages/auth/recover-password/recover-password';
 import { VerifyOtp } from './pages/verify-otp/verify-otp';
+import { CreateStation } from './pages/station/create-station/create-station';
+import { StationList } from './pages/station/station-list/station-list';
 
 export const routes: Routes = [
     {
@@ -42,6 +44,14 @@ export const routes: Routes = [
     {
         path: 'verify-otp',
         component: VerifyOtp,
+    },
+    {
+        path: 'create-station',
+        component: CreateStation,
+    },
+    {
+        path: 'stations',
+        component: StationList,
     }
     
 ];

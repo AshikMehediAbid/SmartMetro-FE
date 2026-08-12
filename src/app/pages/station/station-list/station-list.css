@@ -1,0 +1,94 @@
+.station-card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table {
+  min-width: 950px;
+}
+
+.table thead th {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #495057;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  white-space: nowrap;
+}
+
+.table tbody td {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.station-id {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #e9f2ff;
+  color: #0d6efd;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.location-text {
+  display: block;
+  max-width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status-active {
+  background-color: #d1e7dd;
+  color: #0f5132;
+  padding: 6px 10px;
+  font-weight: 500;
+}
+
+.status-inactive {
+  background-color: #f8d7da;
+  color: #842029;
+  padding: 6px 10px;
+  font-weight: 500;
+}
+
+.action-btn {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 70px 20px;
+}
+
+.empty-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #e9f2ff;
+  color: #0d6efd;
+  font-size: 30px;
+}
+
+@media (max-width: 768px) {
+  .container-fluid {
+    padding: 20px 12px !important;
+  }
+
+  .table {
+    min-width: 900px;
+  }
+}
