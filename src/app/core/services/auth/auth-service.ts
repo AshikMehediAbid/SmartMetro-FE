@@ -58,7 +58,7 @@ export class AuthService {
     //const params = new HttpParams()
     //.set('email', email)
     //.set('otp', otp);
-    debugger;
+   
     return this.http.post<ApiResponse<any>>('https://localhost:7246/api/account/verify-otp', otpVerificationObj);
   }
   getNewAccessToken() {
@@ -111,7 +111,7 @@ export class AuthService {
 
     const payload = token.split('.')[1] ?? '';
 
-    debugger;
+   
     try {
       const decodedPayload = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
       const userInfo = JSON.parse(decodedPayload);
@@ -153,7 +153,7 @@ export class AuthService {
   }
 
   resendOtp(reqObj: OtpVerificationModel) {
-    debugger;
+
     return this.http.post<ApiResponse<any>>('https://localhost:7246/api/account/resend-otp',reqObj);
   }
 }

@@ -1,0 +1,156 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white py-3">
+          <h4 class="mb-0">Create Station</h4>
+        </div>
+
+        <div class="card-body p-4">
+          <form (ngSubmit)="onCreateStationClick()">
+            <!-- Station Name -->
+            <div class="mb-3">
+              <label for="stationName" class="form-label">
+                Station Name <span class="text-danger">*</span>
+              </label>
+
+              <input
+                type="text"
+                id="stationName"
+                name="stationName"
+                class="form-control"
+                placeholder="Enter station name"
+                [(ngModel)]="stationObj().stationName"
+                required
+              />
+            </div>
+
+            <!-- Station Location -->
+            <div class="mb-3">
+              <label for="stationLocation" class="form-label"> Station Location </label>
+
+              <input
+                type="text"
+                id="stationLocation"
+                name="stationLocation"
+                class="form-control"
+                placeholder="Enter station location"
+                [(ngModel)]="stationObj().stationLocation"
+              />
+            </div>
+
+            <!-- Latitude / Longitude -->
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="lat" class="form-label"> Latitude </label>
+
+                <input
+                  type="number"
+                  id="lat"
+                  name="lat"
+                  class="form-control"
+                  step="any"
+                  [(ngModel)]="stationObj().lat"
+                />
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="long" class="form-label"> Longitude </label>
+
+                <input
+                  type="number"
+                  id="long"
+                  name="long"
+                  class="form-control"
+                  step="any"
+                  [(ngModel)]="stationObj().long"
+                />
+              </div>
+            </div>
+
+            <!-- Insert After -->
+            <div class="mb-3">
+              <label for="insertAfter" class="form-label"> Insert After </label>
+
+              <select
+                id="insertAfter"
+                name="insertAfter"
+                class="form-select"
+                [(ngModel)]="selectedInsertAfter"
+                required
+              >
+                <option [ngValue]="0">At the beginning</option>
+                @for (station of stations(); track station.stationId) {
+                  <option [ngValue]="station.stationOrder">
+                    {{ station.stationOrder }} - {{ station.stationName }}
+                  </option>
+                }
+              </select>
+
+              <div class="form-text">
+                Choose where to insert the new station in the existing station order.
+              </div>
+            </div>
+
+            <!-- Distances -->
+            <div class="row">
+              @if (showPreviousDistance()) {
+                <div class="col-md-6 mb-3">
+                  <label for="distanceFromPreviousStation" class="form-label">
+                    Distance From {{ getPreviousStationName() || 'previous station' }}
+                  </label>
+
+                  <input
+                    type="number"
+                    id="distanceFromPreviousStation"
+                    name="distanceFromPreviousStation"
+                    class="form-control"
+                    step="any"
+                    [(ngModel)]="stationObj().distanceFromPreviousStation"
+                  />
+                </div>
+              }
+
+              @if (showNextDistance()) {
+                <div class="col-md-6 mb-3">
+                  <label for="distanceFromNextStation" class="form-label">
+                    Distance From {{ getNextStationName() }}
+                  </label>
+
+                  <input
+                    type="number"
+                    id="distanceFromNextStation"
+                    name="distanceFromNextStation"
+                    class="form-control"
+                    step="any"
+                    [(ngModel)]="stationObj().distanceFromNextStation"
+                  />
+                </div>
+              }
+            </div>
+
+            <!-- Active -->
+            <div class="form-check form-switch mb-4">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="isActive"
+                name="isActive"
+                [(ngModel)]="stationObj().isActive"
+              />
+
+              <label class="form-check-label" for="isActive"> Active Station </label>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-end gap-2">
+              <a routerLink="/stations" class="btn btn-outline-secondary"> Cancel </a>
+
+              <button type="submit" class="btn btn-primary">Create Station</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
