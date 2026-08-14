@@ -1,4 +1,4 @@
-<div class="app-layout">
+<div class="app-layout" [class.logged-out]="!isLoggedIn()">
   @if (isLoggedIn()) {
     <aside class="sidebar" [class.collapsed]="!sidebarOpened()">
       <div class="sidebar-header">
@@ -10,7 +10,11 @@
       <nav *ngIf="sidebarOpened()">
         <a routerLink="/home" routerLinkActive="active">Home</a>
         <a routerLink="/user-profile" routerLinkActive="active">Profile</a>
-        <a *ngIf="isAdmin()" routerLink="/stations" routerLinkActive="active">Station Management</a>
+        @if (isAdmin()) {
+          <a routerLink="/stations" routerLinkActive="active">Station Management</a>
+
+          <a routerLink="/settings" routerLinkActive="active">Settings</a>
+        }
       </nav>
     </aside>
   }

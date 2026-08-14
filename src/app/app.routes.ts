@@ -10,6 +10,7 @@ import { VerifyOtp } from './pages/verify-otp/verify-otp';
 import { CreateStation } from './pages/station/create-station/create-station';
 import { StationList } from './pages/station/station-list/station-list';
 import { NotFound } from './pages/not-found/not-found';
+import { Settings } from './pages/admin/settings/settings';
 
 export const routes: Routes = [
     {
@@ -54,6 +55,10 @@ export const routes: Routes = [
     {
         path: 'stations',
         component: StationList,
+    },
+    {
+        path: 'settings',
+        component: Settings,
     },
     {
         path: 'not-found',
