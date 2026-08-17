@@ -165,6 +165,40 @@ export class AuthService {
     return userInfo;
   }
 
+  getDisplayProfile(): { name: string; email: string; phoneNumber: string; role: string } | null {
+    const user = this.getUserInfo();
+
+    if (!user) {
+      return null;
+    }
+
+    const role = this.formatRoles(this.getUserRoles());
+
+    if (this.getAuthProvider() === 'keycloak') {
+      return {
+        name: user.name ?? user.preferred_username ?? '',
+        email: user.email ?? '',
+        phoneNumber: user.phone_number ?? '',
+        role,
+      };
+    }
+
+    return {
+      name: user['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] ?? '',
+      email: user['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] ?? '',
+      phoneNumber: user['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone'] ?? '',
+      role: user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ?? role,
+    };
+  }
+
+  private formatRoles(roles: string[]): string {
+    const filtered = roles.filter(
+      (role) => role !== 'offline_access' && role !== 'uma_authorization' && !role.startsWith('default-roles-'),
+    );
+
+    return (filtered.length ? filtered : roles).join(', ');
+  }
+
   getUserRoles(): string[] {
     const user = this.getUserInfo();
 

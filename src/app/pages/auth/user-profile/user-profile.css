@@ -261,6 +261,35 @@
   transform: translateY(1px);
 }
 
+.keycloak-actions {
+  align-items: flex-start;
+}
+
+.keycloak-note {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.btn-outline {
+  border: 1px solid #1976d2;
+  background: transparent;
+  color: #1976d2;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-outline:hover {
+  background: #1976d2;
+  color: #ffffff;
+}
+
 @media (max-width: 600px) {
   .change-password-section {
     padding: 18px;

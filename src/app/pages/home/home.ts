@@ -31,8 +31,8 @@ export class Home implements OnInit {
       return;
     }
 
-    const userInfo = this._authService.getUserInfo();
-    this.userName.set(userInfo?.['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] ?? 'Profile');
+    const profile = this._authService.getDisplayProfile();
+    this.userName.set(profile?.name || profile?.email || 'Profile');
   }
 
   onLoginClick() {

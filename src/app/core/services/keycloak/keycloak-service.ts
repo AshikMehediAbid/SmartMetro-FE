@@ -117,14 +117,14 @@ export class KeycloakService {
     }
   }
 
-   editProfile() {
+  editProfile() {
     return this.keycloak.accountManagement();
   }
 
   changePassword() {
     return this.keycloak.login({
       action: 'UPDATE_PASSWORD',
-      redirectUri: window.location.origin + '/settings',
+      redirectUri: window.location.origin + '/user-profile',
     });
   }
 }
