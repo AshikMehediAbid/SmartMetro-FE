@@ -17,10 +17,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  const user = authService.getUserInfo();
-  const role = user?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ?? user?.role ?? '';
-
-  if (role === 'Admin') {
+  if (authService.isAdmin()) {
     return true;
   }
 

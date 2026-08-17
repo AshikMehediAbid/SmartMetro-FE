@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth/auth-service';
 import { Router } from '@angular/router';
 import { OtpVerificationType } from '../../../core/enums/OtpVerificationType';
+import { KeycloakService } from '../../../core/services/keycloak/keycloak-service';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ export class Login {
   loginObj: LoginModel = new LoginModel();
   _authService = inject(AuthService);
   router = inject(Router);
+  keycloakService = inject(KeycloakService);
 
   isLoading = false;
   errorMessage = '';
@@ -33,7 +35,7 @@ export class Login {
           this.router.navigate(['/verify-otp'], {
             queryParams: {
               email: loginData.accessToken,
-              type: OtpVerificationType.EMAIL_VERIFICATION
+              type: OtpVerificationType.EMAIL_VERIFICATION,
             },
           });
           return;
@@ -61,8 +63,12 @@ export class Login {
     this.router.navigate(['/register']);
   }
 
-  onRecoveryPasswordClick(){
+  onRecoveryPasswordClick() {
     this.router.navigate(['/recover-password']);
+  }
+
+  async onKeycloakLogin() {
+    await this.keycloakService.login();
   }
 }
 

@@ -35,7 +35,15 @@
     <p class="auth-switch">
       <a (click)="onRecoveryPasswordClick()">Forget Password?</a>
     </p>
-    <br>
+    <br />
     <p class="auth-switch">Don't have an account? <a (click)="onRegisterClick()">Register</a></p>
+
+    <div class="divider">
+      <span>OR</span>
+    </div>
+
+    <button type="button" class="btn btn-dark btn-sm keycloak-login" (click)="onKeycloakLogin()">
+      Login with Keycloak
+    </button>
   </form>
 </div>

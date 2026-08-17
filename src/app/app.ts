@@ -32,10 +32,7 @@ export class App {
   private updateUserState(): void {
     const loggedIn = this.authService.isLoggedIn();
     this.isLoggedIn.set(loggedIn);
-
-    const user = this.authService.getUserInfo();
-    const role = user?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ?? user?.role ?? '';
-    this.isAdmin.set(role === 'Admin');
+    this.isAdmin.set(this.authService.isAdmin());
   }
 
   protected toggleSidebar(): void {

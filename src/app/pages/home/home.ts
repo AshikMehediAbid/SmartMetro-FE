@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth-service';
+import { KeycloakService } from '../../core/services/keycloak/keycloak-service';
 import { ToastService } from '../../core/services/toast/toast-service';
 
 @Component({
@@ -12,6 +13,7 @@ import { ToastService } from '../../core/services/toast/toast-service';
 export class Home implements OnInit {
   router = inject(Router);
   private _authService = inject(AuthService);
+  private keycloakService = inject(KeycloakService);
   private toastService = inject(ToastService);
   isLogin = signal<boolean>(false);
   userName = signal<string>('');
@@ -41,26 +43,35 @@ export class Home implements OnInit {
     this.router.navigateByUrl('/register');
   }
 
-  onLogoutClick() {
+  async onLogoutClick() {
     const finalizeLogout = () => {
       this._authService.clearStorage();
       this.isLogin.set(this._authService.isLoggedIn());
       this.userName.set('');
-      this.router.navigate(['/home']);
+      this.router.navigate(['/login']);
     };
 
-    this._authService.userLogout().subscribe({
-      next: (response) => {
-        if (response?.message) {
-          this.toastService.success(response.message);
-        }
-        finalizeLogout();
-      },
-      error: (error) => {
-        this.toastService.error(error.error?.message ?? 'Logout failed. Please try again.');
-        finalizeLogout();
-      },
-    });
+    try {
+      if (this._authService.getAuthProvider() === 'keycloak') {
+        await this.keycloakService.logout();
+      }
+
+      this._authService.userLogout().subscribe({
+        next: (response) => {
+          if (response?.message) {
+            this.toastService.success(response.message);
+          }
+          finalizeLogout();
+        },
+        error: (error) => {
+          this.toastService.error(error.error?.message ?? 'Logout failed. Please try again.');
+          finalizeLogout();
+        },
+      });
+    } catch (error) {
+      this.toastService.error('Logout failed. Please try again.');
+      finalizeLogout();
+    }
   }
 
   onProfileClick() {

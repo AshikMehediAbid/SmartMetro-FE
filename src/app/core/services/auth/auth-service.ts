@@ -6,9 +6,15 @@ import { RegisterModel } from '../../../pages/auth/register/register';
 import { OtpVerificationType } from '../../enums/OtpVerificationType';
 import { OtpVerificationModel } from '../../../pages/verify-otp/verify-otp';
 
+type AuthProvider = 'app' | 'keycloak';
+
 @Service()
 export class AuthService {
   http = inject(HttpClient);
+
+  private readonly appTokenKey = 'accessToken';
+  private readonly keycloakTokenKey = 'keycloakAccessToken';
+  private readonly authProviderKey = 'authProvider';
 
   userRegister(registerObject: RegisterModel) {
     return this.http.post<ApiResponse<any>>(
@@ -69,8 +75,18 @@ export class AuthService {
     );
   }
 
+  getAuthProvider(): AuthProvider {
+    return localStorage.getItem(this.authProviderKey) === 'keycloak' ? 'keycloak' : 'app';
+  }
+
   getAccessToken(): string | null {
-    return localStorage.getItem('accessToken');
+    const provider = this.getAuthProvider();
+
+    if (provider === 'keycloak') {
+      return localStorage.getItem(this.keycloakTokenKey);
+    }
+
+    return localStorage.getItem(this.appTokenKey);
   }
 
   private getTokenPayload(token: string | null) {
@@ -102,16 +118,23 @@ export class AuthService {
     return payload.exp * 1000 <= Date.now();
   }
 
-  saveToken(token: string) {
+  saveToken(token: string, provider: AuthProvider = 'app') {
     if (!token) {
       return;
     }
 
-    localStorage.setItem('accessToken', token);
+    const activeProvider = provider === 'keycloak' ? 'keycloak' : 'app';
+
+    if (activeProvider === 'keycloak') {
+      localStorage.setItem(this.keycloakTokenKey, token);
+      localStorage.setItem(this.authProviderKey, 'keycloak');
+    } else {
+      localStorage.setItem(this.appTokenKey, token);
+      localStorage.setItem(this.authProviderKey, 'app');
+    }
 
     const payload = token.split('.')[1] ?? '';
 
-   
     try {
       const decodedPayload = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
       const userInfo = JSON.parse(decodedPayload);
@@ -122,12 +145,14 @@ export class AuthService {
   }
 
   clearStorage() {
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem(this.appTokenKey);
+    localStorage.removeItem(this.keycloakTokenKey);
+    localStorage.removeItem(this.authProviderKey);
     localStorage.removeItem('user');
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('accessToken');
+    return !!this.getAccessToken();
   }
 
   getUserInfo() {
@@ -138,6 +163,27 @@ export class AuthService {
 
     const userInfo = JSON.parse(userInfoString);
     return userInfo;
+  }
+
+  getUserRoles(): string[] {
+    const user = this.getUserInfo();
+
+    const roleSource =
+      user?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ??
+      user?.role ??
+      user?.realm_access?.roles ??
+      user?.resource_access?.account?.roles ??
+      [];
+
+    if (Array.isArray(roleSource)) {
+      return roleSource.map((role) => String(role));
+    }
+
+    return roleSource ? [String(roleSource)] : [];
+  }
+
+  isAdmin(): boolean {
+    return this.getUserRoles().some((role) => role.toLowerCase() === 'admin');
   }
 
   getUserProfile(email: string) {
