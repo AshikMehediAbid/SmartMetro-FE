@@ -1,5 +1,5 @@
 <div class="auth-container">
-  <form>
+  <form class="auth-form">
     <h2>Login</h2>
 
     <div class="form-group">
@@ -27,7 +27,12 @@
     </div>
 
     <div class="form-group form-checkbox">
-      <input type="checkbox" id="rememberMe" name="rememberMe" [(ngModel)]="loginObj.rememberMe" />
+      <input 
+        type="checkbox" 
+        id="rememberMe" 
+        name="rememberMe" 
+        [(ngModel)]="loginObj.rememberMe" 
+      />
       <label for="rememberMe">Remember me</label>
     </div>
 
@@ -42,7 +47,11 @@
       <span>OR</span>
     </div>
 
-    <button type="button" class="btn btn-dark btn-sm keycloak-login" (click)="onKeycloakLogin()">
+    <button 
+      type="button" 
+      class="btn btn-dark btn-sm keycloak-login" 
+      (click)="onKeycloakLogin()"
+    >
       Login with Keycloak
     </button>
   </form>

@@ -9,7 +9,8 @@ const refreshTokenPath = '/account/token';
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const keycloakService = inject(KeycloakService);
-  const isRefreshRequest = req.url.endsWith(refreshTokenPath) || req.url.includes(`${refreshTokenPath}?`);
+  const isRefreshRequest =
+    req.url.endsWith(refreshTokenPath) || req.url.includes(`${refreshTokenPath}?`);
 
   const attachToken = (token: string | null) => {
     if (!token) {
