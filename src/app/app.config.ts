@@ -12,10 +12,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([tokenInterceptor])),
 
-     provideAppInitializer(() => {
+    provideAppInitializer(() => {
       const keycloakService = inject(KeycloakService);
 
       return keycloakService.init();
     }),
-  ]
+  ],
 };
