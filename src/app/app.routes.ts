@@ -11,6 +11,7 @@ import { CreateStation } from './pages/station/create-station/create-station';
 import { StationList } from './pages/station/station-list/station-list';
 import { NotFound } from './pages/not-found/not-found';
 import { Settings } from './pages/admin/settings/settings';
+import { StationDistanceAndFare } from './pages/station-distance-and-fare/station-distance-and-fare';
 
 export const routes: Routes = [
     {
@@ -59,6 +60,10 @@ export const routes: Routes = [
     {
         path: 'settings',
         component: Settings,
+    },
+    {
+        path: 'distance&fare',
+        component: StationDistanceAndFare,
     },
     {
         path: 'not-found',
