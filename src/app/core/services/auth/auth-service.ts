@@ -6,6 +6,13 @@ import { RegisterModel } from '../../../pages/auth/register/register';
 import { OtpVerificationType } from '../../enums/OtpVerificationType';
 import { OtpVerificationModel } from '../../../pages/verify-otp/verify-otp';
 
+export interface KeycloakUserSyncModel {
+  email: string;
+  name: string;
+  keycloakUserId: string;
+  roles: string[];
+}
+
 type AuthProvider = 'app' | 'keycloak';
 
 @Service()
@@ -149,6 +156,7 @@ export class AuthService {
     localStorage.removeItem(this.keycloakTokenKey);
     localStorage.removeItem(this.authProviderKey);
     localStorage.removeItem('user');
+    localStorage.removeItem('keycloak-user-sync');
   }
 
   isLoggedIn(): boolean {
@@ -218,6 +226,19 @@ export class AuthService {
 
   isAdmin(): boolean {
     return this.getUserRoles().some((role) => role.toLowerCase() === 'admin');
+  }
+
+  syncKeycloakUserProfile(userProfile: KeycloakUserSyncModel, accessToken?: string) {
+    const token = accessToken ?? this.getAccessToken();
+
+    return this.http.post<ApiResponse<any>>(
+      'https://localhost:7246/api/account/keycloak-user',
+      userProfile,
+      {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        withCredentials: true,
+      },
+    );
   }
 
   getUserProfile(email: string) {
