@@ -12,6 +12,8 @@ import { StationList } from './pages/station/station-list/station-list';
 import { NotFound } from './pages/not-found/not-found';
 import { Settings } from './pages/admin/settings/settings';
 import { StationDistanceAndFare } from './pages/station-distance-and-fare/station-distance-and-fare';
+import { PurchaseTicket } from './pages/journey/purchase-ticket/purchase-ticket';
+import { PaymentOption } from './pages/payment/payment-option/payment-option';
 
 export const routes: Routes = [
     {
@@ -64,6 +66,14 @@ export const routes: Routes = [
     {
         path: 'distance&fare',
         component: StationDistanceAndFare,
+    },
+    {
+        path: 'ticket-purchase',
+        component: PurchaseTicket,
+    },
+    {
+        path: 'payment-option',
+        component: PaymentOption,
     },
     {
         path: 'not-found',
