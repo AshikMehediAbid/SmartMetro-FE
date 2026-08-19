@@ -14,6 +14,8 @@ import { Settings } from './pages/admin/settings/settings';
 import { StationDistanceAndFare } from './pages/station-distance-and-fare/station-distance-and-fare';
 import { PurchaseTicket } from './pages/journey/purchase-ticket/purchase-ticket';
 import { PaymentOption } from './pages/payment/payment-option/payment-option';
+import { PayFromBalance } from './pages/payment/pay-from-balance/pay-from-balance';
+import { Dashboard } from './pages/dashboard/dashboard';
 
 export const routes: Routes = [
     {
@@ -74,6 +76,14 @@ export const routes: Routes = [
     {
         path: 'payment-option',
         component: PaymentOption,
+    },
+    {
+        path: 'account-balance-payment',
+        component: PayFromBalance,
+    },
+    {
+        path: 'dashboard',
+        component: Dashboard,
     },
     {
         path: 'not-found',
