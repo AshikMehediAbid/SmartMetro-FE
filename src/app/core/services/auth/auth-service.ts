@@ -5,6 +5,7 @@ import { ChangePasswordModel } from '../../../pages/auth/user-profile/user-profi
 import { RegisterModel } from '../../../pages/auth/register/register';
 import { OtpVerificationType } from '../../enums/OtpVerificationType';
 import { OtpVerificationModel } from '../../../pages/verify-otp/verify-otp';
+import { email } from '@angular/forms/signals';
 
 export interface KeycloakUserSyncModel {
   email: string;
@@ -71,8 +72,11 @@ export class AuthService {
     //const params = new HttpParams()
     //.set('email', email)
     //.set('otp', otp);
-   
-    return this.http.post<ApiResponse<any>>('https://localhost:7246/api/account/verify-otp', otpVerificationObj);
+
+    return this.http.post<ApiResponse<any>>(
+      'https://localhost:7246/api/account/verify-otp',
+      otpVerificationObj,
+    );
   }
   getNewAccessToken() {
     return this.http.post<ApiResponse<{ accessToken: string }>>(
@@ -173,6 +177,14 @@ export class AuthService {
     return userInfo;
   }
 
+  getUserEmail(): string  {
+    const user = this.getUserInfo();
+
+    if (!user)
+      return '';
+
+    return user['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] ?? '';
+  }
   getDisplayProfile(): { name: string; email: string; phoneNumber: string; role: string } | null {
     const user = this.getUserInfo();
 
@@ -201,7 +213,10 @@ export class AuthService {
 
   private formatRoles(roles: string[]): string {
     const filtered = roles.filter(
-      (role) => role !== 'offline_access' && role !== 'uma_authorization' && !role.startsWith('default-roles-'),
+      (role) =>
+        role !== 'offline_access' &&
+        role !== 'uma_authorization' &&
+        !role.startsWith('default-roles-'),
     );
 
     return (filtered.length ? filtered : roles).join(', ');
@@ -254,7 +269,9 @@ export class AuthService {
   }
 
   resendOtp(reqObj: OtpVerificationModel) {
-
-    return this.http.post<ApiResponse<any>>('https://localhost:7246/api/account/resend-otp',reqObj);
+    return this.http.post<ApiResponse<any>>(
+      'https://localhost:7246/api/account/resend-otp',
+      reqObj,
+    );
   }
 }

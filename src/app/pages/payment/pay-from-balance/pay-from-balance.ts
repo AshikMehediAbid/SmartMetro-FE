@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { PaymentMethod, WalletService } from '../../../core/services/Wallet/wallet-service';
 import { Router } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
+import { AuthService } from '../../../core/services/auth/auth-service';
 
 interface StationFareResponse {
   fromStation: string;
@@ -18,6 +19,7 @@ interface StationFareResponse {
 })
 export class PayFromBalance implements OnInit {
   private walletService = inject(WalletService);
+  private authService = inject(AuthService);
   private router = inject(Router);
 
   fare = signal<StationFareResponse | null>(null);
@@ -80,7 +82,7 @@ export class PayFromBalance implements OnInit {
   completePayment(): void {
     const fromStationId = this.fromStationId();
     const toStationId = this.toStationId();
-    const userEmail = JSON.parse(localStorage.getItem('user') ?? '{}')?.email ?? '';
+    const email = this.authService.getUserEmail();
 
     if (fromStationId === null || toStationId === null) {
       return;
@@ -92,7 +94,7 @@ export class PayFromBalance implements OnInit {
       .purchaseTicket({
         fromStationId: fromStationId,
         toStationId: toStationId,
-        userEmail: userEmail,
+        userEmail: email,
         paymentMethod : PaymentMethod.Account
       })
       .subscribe({
