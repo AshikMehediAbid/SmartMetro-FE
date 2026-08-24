@@ -246,6 +246,20 @@
   margin: 0;
 }
 
+.ticket-qr-wrapper {
+  display: grid;
+  place-items: center;
+  margin-bottom: 24px;
+}
+
+.ticket-qr {
+  display: block;
+  width: min(100%, 390px);
+  aspect-ratio: 1;
+  object-fit: contain;
+  border: 1px solid #eeeeee;
+}
+
 .close-button {
   border: 0;
   background: transparent;
@@ -257,6 +271,7 @@
 
 .ticket-dialog-details {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -333,6 +348,10 @@
 
   .ticket-details {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .ticket-dialog-details {
     gap: 12px;
   }
 

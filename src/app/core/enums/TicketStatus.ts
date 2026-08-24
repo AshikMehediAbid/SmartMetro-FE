@@ -4,3 +4,8 @@ export enum TicketStatus {
   Expired = 3,
   InUse = 4,
 }
+
+export enum TicketType {
+    SingleJourney = 1,
+    RapidPass = 2
+}

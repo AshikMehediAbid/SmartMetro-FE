@@ -198,22 +198,15 @@
           </button>
         </div>
 
+
+        <div class="ticket-qr-wrapper">
+          <img class="ticket-qr" [src]="ticket.qrCode" alt="Ticket QR code" />
+        </div>
+
         <div class="ticket-dialog-details">
-          <div class="detail">
-            <span class="label">Status</span>
-            <span class="value">{{ getStatusText(ticket.ticketStatus) }}</span>
-          </div>
-          <div class="detail">
-            <span class="label">Route</span>
-            <span class="value">{{ ticket.fromStationName }} → {{ ticket.toStationName }}</span>
-          </div>
           <div class="detail">
             <span class="label">Fare</span>
             <span class="value fare">৳{{ ticket.fare }}</span>
-          </div>
-          <div class="detail">
-            <span class="label">Purchased</span>
-            <span class="value">{{ ticket.createdAt | date:'dd MMM yyyy, hh:mm a' }}</span>
           </div>
           <div class="detail">
             <span class="label">Expires</span>

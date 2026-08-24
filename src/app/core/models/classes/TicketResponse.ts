@@ -1,4 +1,4 @@
-import { TicketStatus } from "../../enums/TicketStatus";
+import { TicketStatus, TicketType } from "../../enums/TicketStatus";
 
 export interface TicketResponse {
   id: string;
@@ -8,4 +8,7 @@ export interface TicketResponse {
   createdAt: string;
   expiredAt: string;
   ticketStatus: TicketStatus;
+  ticketType : TicketType;
+
+  qrCode: string;
 }
