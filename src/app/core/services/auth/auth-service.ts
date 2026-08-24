@@ -183,7 +183,7 @@ export class AuthService {
     if (!user)
       return '';
 
-    return user['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] ?? '';
+    return user['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] ?? user.email ?? '';
   }
   getDisplayProfile(): { name: string; email: string; phoneNumber: string; role: string } | null {
     const user = this.getUserInfo();

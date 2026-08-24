@@ -119,74 +119,67 @@
 
                 @if (fareResults().length > 0) {
                   <div class="fare-summary">
-  @for (result of fareResults(); track $index) {
-    
-    <!-- Journey -->
-    <div class="journey-card">
+                    @for (result of fareResults(); track $index) {
+                      <!-- Journey -->
+                      <div class="journey-card">
+                        <!-- From -->
+                        <div class="station-point">
+                          <div class="station-code">
+                            {{ getStationCode(result.fromStation) }}
+                          </div>
 
-      <!-- From -->
-      <div class="station-point">
-        <div class="station-code">
-          {{ getStationCode(result.fromStation) }}
-        </div>
+                          <div class="station-info">
+                            <span class="station-label">From Station</span>
+                            <strong>{{ result.fromStation }}</strong>
+                          </div>
+                        </div>
 
-        <div class="station-info">
-          <span class="station-label">From Station</span>
-          <strong>{{ result.fromStation }}</strong>
-        </div>
-      </div>
+                        <!-- Journey connector -->
+                        <div class="journey-connector">
+                          <span></span>
+                        </div>
 
-      <!-- Journey connector -->
-      <div class="journey-connector">
-        <span></span>
-      </div>
+                        <!-- To -->
+                        <div class="station-point">
+                          <div class="station-code">
+                            {{ getStationCode(result.toStation) }}
+                          </div>
 
-      <!-- To -->
-      <div class="station-point">
-        <div class="station-code">
-          {{ getStationCode(result.toStation) }}
-        </div>
+                          <div class="station-info">
+                            <span class="station-label">To Station</span>
+                            <strong>{{ result.toStation }}</strong>
+                          </div>
+                        </div>
+                      </div>
 
-        <div class="station-info">
-          <span class="station-label">To Station</span>
-          <strong>{{ result.toStation }}</strong>
-        </div>
-      </div>
-    </div>
+                      <!-- Distance & Fare -->
+                      <div class="fare-summary-grid">
+                        <!-- Distance -->
+                        <div class="fare-info">
+                          <div class="fare-info-icon">
+                            <i class="bi bi-signpost-2-fill"></i>
+                          </div>
 
-    <!-- Distance & Fare -->
-    <div class="fare-summary-grid">
+                          <div>
+                            <span>Distance</span>
+                            <strong> {{ result.distance | number: '1.2-2' }} km </strong>
+                          </div>
+                        </div>
 
-      <!-- Distance -->
-      <div class="fare-info">
-        <div class="fare-info-icon">
-          <i class="bi bi-signpost-2-fill"></i>
-        </div>
+                        <!-- Fare -->
+                        <div class="fare-info fare-price">
+                          <div class="fare-info-icon">
+                            <i class="bi bi-cash-coin"></i>
+                          </div>
 
-        <div>
-          <span>Distance</span>
-          <strong>
-            {{ result.distance | number: '1.2-2' }} km
-          </strong>
-        </div>
-      </div>
-
-      <!-- Fare -->
-      <div class="fare-info fare-price">
-        <div class="fare-info-icon">
-          <i class="bi bi-cash-coin"></i>
-        </div>
-
-        <div>
-          <span>Ticket Fare</span>
-          <strong>{{ result.fare }} ৳</strong>
-        </div>
-      </div>
-
-    </div>
-  }
-</div>
-
+                          <div>
+                            <span>Ticket Fare</span>
+                            <strong>{{ result.fare }} ৳</strong>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  </div>
 
                   <!-- Payment Selection -->
                   <div class="payment-selection">
