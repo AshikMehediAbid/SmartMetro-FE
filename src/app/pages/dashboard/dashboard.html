@@ -1,1 +1,88 @@
-<p>dashboard works!</p>
+<main class="dashboard-page">
+	<section class="dashboard-header">
+		<div>
+			<p class="eyebrow">SmartMetro account</p>
+			<h1>Welcome, {{ userName() }}</h1>
+			<p class="header-copy">Your tickets, balance, and recent journeys in one place.</p>
+		</div>
+		<button type="button" class="profile-button" (click)="openAccount()" aria-label="Open my account">
+			<span class="profile-mark">{{ userName().charAt(0).toUpperCase() }}</span>
+			<span>My account</span>
+		</button>
+	</section>
+
+	<section class="balance-panel" aria-labelledby="balance-title">
+		<div class="balance-copy">
+			<span class="section-label" id="balance-title">Wallet balance</span>
+			@if (balance() !== null) {
+				<strong>৳ {{ balance() | number:'1.2-2' }}</strong>
+			} @else if (balanceError()) {
+				<strong class="unavailable">Unavailable</strong>
+			} @else {
+				<strong class="loading-value">Loading...</strong>
+			}
+			<span class="balance-note">Available for your next journey</span>
+		</div>
+		<button type="button" class="add-money-button" (click)="addMoney()"><span aria-hidden="true">+</span> Add money</button>
+	</section>
+
+	<section class="stats-grid" aria-label="Ticket summary">
+		<article class="stat-card fresh-stat">
+			<span class="stat-icon" aria-hidden="true">◷</span>
+			<div><span class="stat-label">Fresh tickets</span><strong>{{ freshTickets().length }}</strong></div>
+		</article>
+		<article class="stat-card used-stat">
+			<span class="stat-icon" aria-hidden="true">✓</span>
+			<div><span class="stat-label">Used tickets</span><strong>{{ usedTickets().length }}</strong></div>
+		</article>
+		<article class="stat-card expired-stat">
+			<span class="stat-icon" aria-hidden="true">!</span>
+			<div><span class="stat-label">Expired tickets</span><strong>{{ expiredTickets().length }}</strong></div>
+		</article>
+	</section>
+
+	<section class="content-grid">
+		<article class="panel recent-ticket-panel">
+			<div class="panel-heading">
+				<div><p class="eyebrow">Ready to ride</p><h2>Recent ticket</h2></div>
+				<button type="button" class="text-button" (click)="viewTickets()">View all</button>
+			</div>
+
+			@if (loadingTickets()) {
+				<p class="state-message">Loading your tickets...</p>
+			} @else if (recentTicket; as ticket) {
+				<div class="route-display">
+					<div class="station-name"><span>From</span><strong>{{ ticket.fromStationName }}</strong></div>
+					<span class="route-arrow" aria-hidden="true">→</span>
+					<div class="station-name destination"><span>To</span><strong>{{ ticket.toStationName }}</strong></div>
+				</div>
+				<div class="ticket-meta">
+					<span>Valid until</span>
+					<strong>{{ ticket.expiredAt | date:'dd MMM yyyy, hh:mm a' }}</strong>
+					<span class="fare">৳ {{ ticket.fare | number:'1.2-2' }}</span>
+				</div>
+				<button type="button" class="primary-action" (click)="viewTicket(ticket)">View ticket</button>
+			} @else {
+				<div class="empty-state"><span class="empty-icon" aria-hidden="true">＋</span><strong>No active tickets</strong><span>Buy a ticket when you are ready to travel.</span></div>
+			}
+		</article>
+
+		<article class="panel journey-panel">
+			<div class="panel-heading"><div><p class="eyebrow">Your activity</p><h2>Recent journey</h2></div><span class="trip-total">{{ totalTrips }} total trips</span></div>
+			@if (recentJourney; as journey) {
+				<div class="journey-row"><span class="journey-dot" aria-hidden="true"></span><div><strong>{{ journey.fromStationName }} <span>→</span> {{ journey.toStationName }}</strong><small>{{ journey.createdAt | date:'dd MMM yyyy, hh:mm a' }}</small></div><strong class="journey-fare">৳ {{ journey.fare | number:'1.2-2' }}</strong></div>
+				<button type="button" class="text-button journey-link" (click)="viewJourneyHistory()">View journey history →</button>
+			} @else if (ticketError()) {
+				<p class="state-message">Journey history is unavailable right now.</p>
+			} @else {
+				<p class="state-message">Your completed journeys will appear here.</p>
+			}
+		</article>
+	</section>
+
+	<section class="quick-actions" aria-label="Quick actions">
+		<button type="button" class="quick-action primary-quick-action" (click)="buyTicket()"><span class="action-icon" aria-hidden="true">＋</span><span><strong>Buy ticket</strong><small>Plan a new journey</small></span><span aria-hidden="true">→</span></button>
+		<button type="button" class="quick-action" (click)="viewTickets()"><span class="action-icon" aria-hidden="true">▣</span><span><strong>My tickets</strong><small>View active and past tickets</small></span><span aria-hidden="true">→</span></button>
+		<button type="button" class="quick-action" (click)="viewJourneyHistory()"><span class="action-icon" aria-hidden="true">↗</span><span><strong>Journey history</strong><small>Review your travel activity</small></span><span aria-hidden="true">→</span></button>
+	</section>
+</main>
