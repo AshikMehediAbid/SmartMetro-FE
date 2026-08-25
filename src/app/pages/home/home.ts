@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth/auth-service';
 import { KeycloakService } from '../../core/services/keycloak/keycloak-service';
 import { ToastService } from '../../core/services/toast/toast-service';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -76,5 +76,21 @@ export class Home implements OnInit {
 
   onProfileClick() {
     this.router.navigate(['/user-profile']);
+  }
+
+  onDashboardClick(): void {
+    this.router.navigate(['/dashboard']);
+  }
+
+  onBuyTicketClick(): void {
+    this.router.navigate(['/ticket-purchase']);
+  }
+
+  onTicketsClick(): void {
+    this.router.navigate(['/tickets']);
+  }
+
+  onFareClick(): void {
+    this.router.navigate(['/distance&fare']);
   }
 }
