@@ -1,14 +1,16 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, switchMap, throwError } from 'rxjs';
+import { catchError, from, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../services/auth/auth-service';
+import { KeycloakService } from '../services/keycloak/keycloak-service';
 
 const refreshTokenPath = '/account/token';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
-  const accessToken = authService.getAccessToken();
-  const isRefreshRequest = req.url.endsWith(refreshTokenPath) || req.url.includes(`${refreshTokenPath}?`);
+  const keycloakService = inject(KeycloakService);
+  const isRefreshRequest =
+    req.url.endsWith(refreshTokenPath) || req.url.includes(`${refreshTokenPath}?`);
 
   const attachToken = (token: string | null) => {
     if (!token) {
@@ -25,6 +27,28 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   if (isRefreshRequest) {
     return next(req);
   }
+
+  if (authService.getAuthProvider() === 'keycloak') {
+    const keycloakToken = keycloakService.getToken();
+
+    if (!keycloakToken) {
+      return next(req);
+    }
+
+    if (keycloakService.isTokenExpired()) {
+      return from(keycloakService.refreshToken()).pipe(
+        switchMap(() => next(attachToken(keycloakService.getToken() ?? keycloakToken))),
+        catchError((error) => {
+          authService.clearStorage();
+          return throwError(() => error);
+        }),
+      );
+    }
+
+    return next(attachToken(keycloakToken));
+  }
+
+  const accessToken = authService.getAccessToken();
 
   if (!accessToken || !authService.isAccessTokenExpired(accessToken)) {
     return next(attachToken(accessToken));

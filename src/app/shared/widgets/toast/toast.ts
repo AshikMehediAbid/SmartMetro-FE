@@ -8,5 +8,6 @@ import { ToastService } from '../../../core/services/toast/toast-service';
   standalone: true,
 })
 export class ToastComponent {
-  protected readonly toastService = inject(ToastService);
+  private readonly toastService = inject(ToastService);
+  protected readonly toasts = this.toastService.toasts;
 }

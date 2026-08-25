@@ -1,5 +1,5 @@
 <div class="auth-container">
-  <form>
+  <form class="auth-form">
     <h2>Login</h2>
 
     <div class="form-group">
@@ -26,16 +26,32 @@
       />
     </div>
 
-    <div class="form-group form-checkbox">
-      <input type="checkbox" id="rememberMe" name="rememberMe" [(ngModel)]="loginObj.rememberMe" />
-      <label for="rememberMe">Remember me</label>
+    <div class="remember-forgot-row">
+      <div class="form-checkbox">
+        <input
+          type="checkbox"
+          id="rememberMe"
+          name="rememberMe"
+          [(ngModel)]="loginObj.rememberMe"
+        />
+        <label for="rememberMe">Remember me</label>
+      </div>
+      <a class="forgot-password" (click)="onRecoveryPasswordClick()"> Forget Password? </a>
     </div>
 
-    <button class="btn btn-success btn-sm" (click)="onLogin()">Login</button>
-    <p class="auth-switch">
+    <button type="button" class="btn btn-success btn-sm" (click)="onLogin()">Login</button>
+    <!-- <p class="auth-switch">
       <a (click)="onRecoveryPasswordClick()">Forget Password?</a>
-    </p>
-    <br>
+    </p> -->
+    <br />
     <p class="auth-switch">Don't have an account? <a (click)="onRegisterClick()">Register</a></p>
+
+    <div class="divider">
+      <span>OR</span>
+    </div>
+
+    <button type="button" class="btn btn-dark btn-sm keycloak-login" (click)="onKeycloakLogin()">
+      Login with Keycloak
+    </button>
   </form>
 </div>

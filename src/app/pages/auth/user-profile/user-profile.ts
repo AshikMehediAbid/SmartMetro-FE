@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { AuthService } from '../../../core/services/auth/auth-service';
+import { KeycloakService } from '../../../core/services/keycloak/keycloak-service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../core/services/toast/toast-service';
 import { FormsModule } from '@angular/forms';
@@ -12,10 +13,12 @@ import { FormsModule } from '@angular/forms';
 })
 export class UserProfile implements OnInit {
   private _authService = inject(AuthService);
+  private keycloakService = inject(KeycloakService);
   private toastService = inject(ToastService);
   router = inject(Router);
 
   userInfo = signal<UserProfileModel | null>(null);
+  isKeycloakUser = signal(false);
   toggleChangePasswordVisible = signal<boolean>(false);
   changePasswordObj = signal<ChangePasswordModel>({
     currentPassword: '',
@@ -24,32 +27,28 @@ export class UserProfile implements OnInit {
   });
 
   ngOnInit() {
+    this.isKeycloakUser.set(this._authService.getAuthProvider() === 'keycloak');
     this.getUserProfile();
   }
 
   getUserProfile() {
-    const user = this._authService.getUserInfo();
-
-    if (!user) {
-      this.userInfo.set(null);
-      return;
-    }
-
-    const profile: UserProfileModel = {
-      name: user['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
-      email: user['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
-      phoneNumber: user['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone'],
-      role: user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
-    };
-
-    this.userInfo.set(profile);
+    this.userInfo.set(this._authService.getDisplayProfile());
   }
 
-  onHomeClick(){
+  onHomeClick() {
     this.router.navigate(['/']);
   }
 
-  onLogoutClick(){
+  async onLogoutClick() {
+    if (this.isKeycloakUser()) {
+      try {
+        await this.keycloakService.logout();
+      } catch {
+        this.toastService.error('Logout failed. Please try again.');
+      }
+      return;
+    }
+
     const finalizeLogout = () => {
       this._authService.clearStorage();
       this.router.navigate(['/home']);
@@ -67,14 +66,27 @@ export class UserProfile implements OnInit {
         finalizeLogout();
       },
     });
-
   }
 
-  onChangePasswordClick(){
+  onEditProfileClick() {
+    if (this.isKeycloakUser()) {
+      this.keycloakService.editProfile();
+      return;
+    }
+
+    this.toastService.info('Edit profile is not available yet.');
+  }
+
+  onChangePasswordClick() {
+    if (this.isKeycloakUser()) {
+      this.keycloakService.changePassword();
+      return;
+    }
+
     this.toggleChangePasswordVisible.set(!this.toggleChangePasswordVisible());
   }
 
-  onUpdatePasswordClick(){
+  onUpdatePasswordClick() {
     this._authService.changePassword(this.changePasswordObj()).subscribe({
       next: (response) => {
         this.toastService.success(response.message);

@@ -1,0 +1,38 @@
+.card {
+  border-radius: 12px;
+}
+
+.card-header {
+  border-radius: 12px 12px 0 0 !important;
+}
+
+.form-label {
+  margin-bottom: 0.5rem;
+}
+
+.form-select {
+  min-height: 44px;
+}
+
+.btn {
+  min-height: 42px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  font-weight: 600;
+}
+
+.table td,
+.table th {
+  padding: 12px 14px;
+}
+
+.alert {
+  border-radius: 8px;
+}

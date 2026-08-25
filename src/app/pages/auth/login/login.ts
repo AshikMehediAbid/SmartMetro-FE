@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth/auth-service';
 import { Router } from '@angular/router';
 import { OtpVerificationType } from '../../../core/enums/OtpVerificationType';
+import { KeycloakService } from '../../../core/services/keycloak/keycloak-service';
+import { ToastService } from '../../../core/services/toast/toast-service';
 
 @Component({
   selector: 'app-login',
@@ -14,11 +16,23 @@ export class Login {
   loginObj: LoginModel = new LoginModel();
   _authService = inject(AuthService);
   router = inject(Router);
+  keycloakService = inject(KeycloakService);
+  private toastService = inject(ToastService);
 
   isLoading = false;
   errorMessage = '';
 
   onLogin() {
+    const phoneNumber = this.loginObj.phoneNumber?.trim();
+    const password = this.loginObj.password?.trim();
+
+    if (!phoneNumber || !password) {
+      const message = !phoneNumber && !password ? 'Phone number and password are required.' : !phoneNumber ? 'Phone number is required.' : 'Password is required.';
+      this.errorMessage = message;
+      this.toastService.error(message);
+      return;
+    }
+
     this.isLoading = true;
     this.errorMessage = '';
 
@@ -33,7 +47,7 @@ export class Login {
           this.router.navigate(['/verify-otp'], {
             queryParams: {
               email: loginData.accessToken,
-              type: OtpVerificationType.EMAIL_VERIFICATION
+              type: OtpVerificationType.EMAIL_VERIFICATION,
             },
           });
           return;
@@ -52,7 +66,9 @@ export class Login {
       error: (error) => {
         this.isLoading = false;
 
-        this.errorMessage = error.error?.message ?? 'Login failed. Please try again.';
+        const message = error.error?.message ?? 'Login failed. Please try again.';
+        this.errorMessage = message;
+        this.toastService.error(message);
       },
     });
   }
@@ -61,8 +77,12 @@ export class Login {
     this.router.navigate(['/register']);
   }
 
-  onRecoveryPasswordClick(){
+  onRecoveryPasswordClick() {
     this.router.navigate(['/recover-password']);
+  }
+
+  async onKeycloakLogin() {
+    await this.keycloakService.login();
   }
 }
 

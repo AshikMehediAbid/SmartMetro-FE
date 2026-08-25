@@ -13,13 +13,13 @@
     <div class="profile-header">
       <div class="avatar">
         @if (userInfo(); as user) {
-          {{ user.name.charAt(0).toUpperCase() }}
+          {{ (user.name || user.email || '?').charAt(0).toUpperCase() }}
         }
       </div>
 
       <div>
         @if (userInfo(); as user) {
-          <h2>{{ user.name }}</h2>
+          <h2>{{ user.name || user.email || 'User' }}</h2>
           <p>{{ user.role }}</p>
         }
       </div>
@@ -29,101 +29,101 @@
       <div class="profile-details">
         <div class="detail-item">
           <span class="detail-label">Full Name</span>
-          <span class="detail-value">{{ user.name }}</span>
+          <span class="detail-value">{{ user.name || '—' }}</span>
         </div>
 
         <div class="detail-item">
           <span class="detail-label">Email</span>
-          <span class="detail-value">{{ user.email }}</span>
+          <span class="detail-value">{{ user.email || '—' }}</span>
         </div>
 
         <div class="detail-item">
           <span class="detail-label">Phone Number</span>
-          <span class="detail-value">{{ user.phoneNumber }}</span>
+          <span class="detail-value">{{ user.phoneNumber || '—' }}</span>
         </div>
 
         <div class="detail-item">
           <span class="detail-label">Role</span>
           <span class="detail-value role-badge">
-            {{ user.role }}
+            {{ user.role || '—' }}
           </span>
         </div>
 
-        <div class="detail-item">
-          <button class="btn btn-outline" (click)="onChangePasswordClick()"> {{toggleChangePasswordVisible() ? "Change Password ▲" : "Change Password ▼"}}
-          </button>
-        </div>
+        @if (isKeycloakUser()) {
+          <div class="detail-item keycloak-actions">
+            <div>
+              <span class="detail-label">Account Management</span>
+              <p class="keycloak-note">Profile and password are managed through Keycloak.</p>
+            </div>
+            <button type="button" class="btn btn-outline" (click)="onChangePasswordClick()">
+              Change Password
+            </button>
+          </div>
+        } @else {
+          <div class="detail-item">
+            <button type="button" class="btn btn-outline" (click)="onChangePasswordClick()">
+              {{ toggleChangePasswordVisible() ? 'Change Password ▲' : 'Change Password ▼' }}
+            </button>
+          </div>
 
-<!-- Change Password Form -->
-@if (toggleChangePasswordVisible()) {
+          @if (toggleChangePasswordVisible()) {
+            <div class="change-password-section">
+              <div class="change-password-header">
+                <div>
+                  <h3>Change Password</h3>
+                  <p>Update your password to keep your account secure.</p>
+                </div>
+              </div>
 
-  <div class="change-password-section">
+              <div class="password-form">
+                <div class="form-group">
+                  <label for="currentPassword">Current Password</label>
+                  <input
+                    id="currentPassword"
+                    type="password"
+                    class="form-control"
+                    placeholder="Enter current password"
+                    [(ngModel)]="changePasswordObj().currentPassword"
+                  />
+                </div>
 
-    <div class="change-password-header">
-      <div>
-        <h3>Change Password</h3>
-        <p>Update your password to keep your account secure.</p>
-      </div>
-    </div>
+                <div class="form-group">
+                  <label for="newPassword">New Password</label>
+                  <input
+                    id="newPassword"
+                    type="password"
+                    class="form-control"
+                    placeholder="Enter new password"
+                    [(ngModel)]="changePasswordObj().newPassword"
+                  />
+                </div>
 
-    <div class="password-form">
+                <div class="form-group">
+                  <label for="confirmPassword">Confirm New Password</label>
+                  <input
+                    id="confirmPassword"
+                    type="password"
+                    class="form-control"
+                    placeholder="Re-enter your new password"
+                    [(ngModel)]="changePasswordObj().confirmPassword"
+                  />
+                </div>
 
-      <div class="form-group">
-        <label for="currentPassword">Current Password</label>
-
-        <input
-          id="currentPassword"
-          type="password"
-          class="form-control"
-          placeholder="Enter current password"
-          [(ngModel)]="changePasswordObj().currentPassword"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="newPassword">New Password</label>
-
-        <input
-          id="newPassword"
-          type="password"
-          class="form-control"
-          placeholder="Enter new password"
-          [(ngModel)]="changePasswordObj().newPassword"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="confirmPassword">Confirm New Password</label>
-
-        <input
-          id="confirmPassword"
-          type="password"
-          class="form-control"
-          placeholder="Re-enter your new password"
-          [(ngModel)]="changePasswordObj().confirmPassword"
-        />
-      </div>
-
-      <div class="password-actions">
-        <button
-          type="button"
-          class="update-password-btn"
-          (click)="onUpdatePasswordClick()"
-        >
-          Update Password
-        </button>
-      </div>
-
-    </div>
-
-  </div>
-
-}
-
+                <div class="password-actions">
+                  <button type="button" class="update-password-btn" (click)="onUpdatePasswordClick()">
+                    Update Password
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        }
       </div>
 
       <div class="profile-actions">
-        <button type="button" class="edit-btn">Edit Profile</button>
+        <button type="button" class="edit-btn" (click)="onEditProfileClick()">
+          {{ isKeycloakUser() ? 'Edit Profile in Keycloak' : 'Edit Profile' }}
+        </button>
       </div>
     } @else {
       <div class="loading">Loading user information...</div>
