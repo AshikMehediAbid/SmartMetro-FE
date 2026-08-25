@@ -1,0 +1,229 @@
+<div class="ticket-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h2>My Tickets</h2>
+      <p>View and manage your metro tickets</p>
+    </div>
+  </div>
+
+  <!-- Status Filter -->
+  <div class="status-filter">
+
+    <button
+      type="button"
+      [class.active]="selectedStatus() === TicketStatus.Fresh"
+      (click)="changeStatus(TicketStatus.Fresh)"
+    >
+      Fresh
+    </button>
+
+    <button
+      type="button"
+      [class.active]="selectedStatus() === TicketStatus.InUse"
+      (click)="changeStatus(TicketStatus.InUse)"
+    >
+      In Use
+    </button>
+
+    <button
+      type="button"
+      [class.active]="selectedStatus() === TicketStatus.Used"
+      (click)="changeStatus(TicketStatus.Used)"
+    >
+      Used
+    </button>
+
+    <button
+      type="button"
+      [class.active]="selectedStatus() === TicketStatus.Expired"
+      (click)="changeStatus(TicketStatus.Expired)"
+    >
+      Expired
+    </button>
+
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="loading">
+      Loading tickets...
+    </div>
+  }
+
+  <!-- Error -->
+  @if (!loading() && errorMessage()) {
+    <div class="error-message">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  <!-- No Tickets -->
+  @if (!loading() && !errorMessage() && tickets().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">🎫</div>
+
+      <h3>No tickets found</h3>
+
+      <p>
+        You don't have any
+        {{ getStatusText(selectedStatus()).toLowerCase() }}
+        tickets.
+      </p>
+    </div>
+  }
+
+  <!-- Tickets -->
+  @if (!loading() && tickets().length > 0) {
+
+    <div class="ticket-list">
+
+      @for (
+        ticket of tickets();
+        track ticket.id
+      ) {
+
+        <div class="ticket-card">
+
+          <!-- Ticket Top -->
+          <div class="ticket-header">
+
+            <div class="ticket-number">
+              {{ ticket.fromStationName }} → {{ ticket.toStationName }}
+            </div>
+
+            <span
+              class="status"
+              [class.fresh]="isStatus(ticket.ticketStatus, TicketStatus.Fresh)"
+              [class.in-use]="isStatus(ticket.ticketStatus, TicketStatus.InUse)"
+              [class.used]="isStatus(ticket.ticketStatus, TicketStatus.Used)"
+              [class.expired]="isStatus(ticket.ticketStatus, TicketStatus.Expired)"
+            >
+              {{ getStatusText(ticket.ticketStatus) }}
+            </span>
+
+          </div>
+
+          <!-- Route -->
+          <div class="route">
+
+            <div class="station">
+              <span class="station-label">From</span>
+
+              <strong>
+                {{ ticket.fromStationName }}
+              </strong>
+            </div>
+
+            <div class="route-line">
+              <span>→</span>
+            </div>
+
+            <div class="station">
+              <span class="station-label">To</span>
+
+              <strong>
+                {{ ticket.toStationName }}
+              </strong>
+            </div>
+
+          </div>
+
+          <!-- Ticket Details -->
+          <div class="ticket-details">
+
+            <div class="detail">
+              <span class="label">Fare</span>
+
+              <span class="value fare">
+                ৳{{ ticket.fare }}
+              </span>
+            </div>
+
+            <div class="detail">
+              <span class="label">Purchased</span>
+
+              <span class="value">
+                {{ ticket.createdAt | date:'dd MMM yyyy, hh:mm a' }}
+              </span>
+            </div>
+
+            <div class="detail">
+              <span class="label">Expires</span>
+
+              <span class="value">
+                {{ ticket.expiredAt | date:'dd MMM yyyy, hh:mm a' }}
+              </span>
+            </div>
+
+          </div>
+
+          <div class="ticket-actions">
+            <button type="button" class="view-ticket-button" (click)="viewTicket(ticket)">
+              View Ticket
+            </button>
+
+            <button
+              type="button"
+              class="download-ticket-button"
+              [disabled]="downloadingTicketId() === ticket.id"
+              (click)="downloadTicket(ticket)"
+            >
+              {{ downloadingTicketId() === ticket.id ? 'Downloading...' : 'Download Ticket' }}
+            </button>
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+  @if (selectedTicket(); as ticket) {
+    <div class="ticket-dialog-backdrop" (click)="closeTicket()">
+      <section
+        class="ticket-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="ticket-dialog-title"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="ticket-dialog-header">
+          <h3 id="ticket-dialog-title">{{ ticket.fromStationName }} → {{ ticket.toStationName }}</h3>
+          <button type="button" class="close-button" aria-label="Close ticket details" (click)="closeTicket()">
+            ×
+          </button>
+        </div>
+
+
+        <div class="ticket-qr-wrapper">
+          <img class="ticket-qr" [src]="ticket.qrCode" alt="Ticket QR code" />
+        </div>
+
+        <div class="ticket-dialog-details">
+          <div class="detail">
+            <span class="label">Fare</span>
+            <span class="value fare">৳{{ ticket.fare }}</span>
+          </div>
+          <div class="detail">
+            <span class="label">Expires</span>
+            <span class="value">{{ ticket.expiredAt | date:'dd MMM yyyy, hh:mm a' }}</span>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="download-ticket-button dialog-download"
+          [disabled]="downloadingTicketId() === ticket.id"
+          (click)="downloadTicket(ticket)"
+        >
+          {{ downloadingTicketId() === ticket.id ? 'Downloading...' : 'Download Ticket' }}
+        </button>
+      </section>
+    </div>
+  }
+
+</div>

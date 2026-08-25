@@ -10,12 +10,18 @@
       <nav *ngIf="sidebarOpened()">
         <a routerLink="/home" routerLinkActive="active">Home</a>
         <a routerLink="/user-profile" routerLinkActive="active">Profile</a>
+        <a routerLink="/distance&fare" routerLinkActive="active">Station Distance & Fare</a>
         @if (isAdmin()) {
           <a routerLink="/stations" routerLinkActive="active">Station Management</a>
 
           <a routerLink="/settings" routerLinkActive="active">Settings</a>
+
+          <a routerLink="/select-scanner" routerLinkActive="active">Select Scanner</a>
         }
-        <a routerLink="/distance&fare" routerLinkActive="active">Station Distance & Fare</a>
+        @else {
+          <a routerLink="/ticket-purchase" routerLinkActive="active">Purchase Ticket</a>
+        }
+        <a routerLink="/tickets" routerLinkActive="active">Tickets</a>
       </nav>
     </aside>
   }

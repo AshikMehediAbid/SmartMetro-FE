@@ -1,0 +1,231 @@
+<div class="payment-page">
+
+  <div class="payment-card">
+
+    <!-- Loading -->
+    @if (isLoading()) {
+
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <h3>Checking your balance...</h3>
+        <p>Please wait.</p>
+      </div>
+
+    }
+
+    <!-- Insufficient Balance -->
+    @else if (insufficientBalance()) {
+
+      <div class="status-state insufficient">
+
+        <div class="status-icon">
+          !
+        </div>
+
+        <h2>Insufficient Balance</h2>
+
+        <p class="status-message">
+          You don't have enough balance to purchase this ticket.
+        </p>
+
+        <div class="balance-info">
+
+          <div class="balance-row">
+            <span>Ticket Fare</span>
+            <strong>
+              ৳{{ fare()?.fare | number:'1.2-2' }}
+            </strong>
+          </div>
+
+          <div class="balance-row">
+            <span>Your Balance</span>
+            <strong>
+              ৳{{ balance() | number:'1.2-2' }}
+            </strong>
+          </div>
+
+          <div class="balance-row difference">
+            <span>Additional Amount Needed</span>
+            <strong>
+              ৳{{ (fare()!.fare - balance()) | number:'1.2-2' }}
+            </strong>
+          </div>
+
+        </div>
+
+        <button
+          class="secondary-button"
+          type="button"
+          (click)="goBackToPurchase()">
+
+          Back to Purchase Ticket
+
+        </button>
+
+      </div>
+
+    }
+
+    <!-- Payment Successful -->
+    @else if (paymentCompleted()) {
+
+      <div class="status-state success">
+
+        <div class="status-icon">
+          ✓
+        </div>
+
+        <h2>Payment Successful</h2>
+
+        <p class="status-message">
+          Your metro ticket has been purchased successfully.
+        </p>
+
+        <div class="ticket-summary">
+
+          <div class="summary-row">
+            <span>From</span>
+            <strong>{{ fare()?.fromStation }}</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>To</span>
+            <strong>{{ fare()?.toStation }}</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Fare</span>
+            <strong>
+              ৳{{ fare()?.fare | number:'1.2-2' }}
+            </strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Remaining Balance</span>
+            <strong>
+              ৳{{ remainingBalance | number:'1.2-2' }}
+            </strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    }
+
+    <!-- Payment Confirmation -->
+    @else {
+
+      <div class="payment-content">
+
+        <div class="page-header">
+          <h2>Confirm Payment</h2>
+          <p>Review your ticket details before completing payment.</p>
+        </div>
+
+        <!-- Ticket Details -->
+        <div class="ticket-card">
+
+          <div class="route">
+
+            <div class="station">
+              <span class="label">FROM</span>
+              <h3>{{ fare()?.fromStation }}</h3>
+            </div>
+
+            <div class="route-line">
+              <span>→</span>
+            </div>
+
+            <div class="station destination">
+              <span class="label">TO</span>
+              <h3>{{ fare()?.toStation }}</h3>
+            </div>
+
+          </div>
+
+          <div class="ticket-details">
+
+            <div class="detail-item">
+              <span>Distance</span>
+              <strong>
+                {{ fare()?.distance | number:'1.2-2' }} km
+              </strong>
+            </div>
+
+            <div class="detail-item">
+              <span>Ticket Fare</span>
+              <strong>
+                ৳{{ fare()?.fare | number:'1.2-2' }}
+              </strong>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Balance -->
+        <div class="balance-card">
+
+          <div class="balance-header">
+            <span>Current Balance</span>
+            <strong>
+              ৳{{ balance() | number:'1.2-2' }}
+            </strong>
+          </div>
+
+          <div class="balance-divider"></div>
+
+          <div class="balance-header">
+            <span>After Payment</span>
+            <strong>
+              ৳{{ remainingBalance | number:'1.2-2' }}
+            </strong>
+          </div>
+
+        </div>
+
+        <!-- Payment -->
+        <div class="payment-summary">
+
+          <span>Total Amount</span>
+
+          <strong>
+            ৳{{ fare()?.fare | number:'1.2-2' }}
+          </strong>
+
+        </div>
+
+        <button
+          class="complete-button"
+          type="button"
+          [disabled]="paymentProcessing()"
+          (click)="completePayment()">
+
+          @if (paymentProcessing()) {
+            <span class="button-spinner"></span>
+            Processing Payment...
+          }
+          @else {
+            Complete Payment
+          }
+
+        </button>
+
+        <button
+          class="back-button"
+          type="button"
+          [disabled]="paymentProcessing()"
+          (click)="goBackToPurchase()">
+
+          Cancel
+
+        </button>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>

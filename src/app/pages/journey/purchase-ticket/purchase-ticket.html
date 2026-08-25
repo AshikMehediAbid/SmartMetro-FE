@@ -1,0 +1,292 @@
+<div class="purchase-page">
+  <div class="container py-4 py-lg-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-9 col-xl-8">
+        <div class="ticket-card">
+          <!-- Header -->
+          <div class="ticket-header">
+            <div>
+              <h4 class="mb-1">Purchase Ticket</h4>
+              <p class="mb-0">Select your journey to check the fare.</p>
+            </div>
+
+            <div class="ticket-icon">
+              <i class="bi bi-ticket-perforated"></i>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="ticket-body">
+            <!-- Station Selection -->
+            <div class="row g-4">
+              <!-- From Station -->
+              <div class="col-md-6">
+                <label for="fromStation" class="form-label">
+                  From Station
+                  <span class="required">*</span>
+                </label>
+
+                <div class="input-wrapper">
+                  <i class="bi bi-geo-alt input-icon"></i>
+
+                  <select
+                    id="fromStation"
+                    class="form-select station-select"
+                    [(ngModel)]="selectedFromStationId"
+                    (ngModelChange)="onFromStationChange()"
+                  >
+                    <option [ngValue]="null">Select starting point</option>
+
+                    @for (station of stations(); track station.stationId) {
+                      <option [ngValue]="station.stationId">
+                        {{ station.stationName }}
+                      </option>
+                    }
+                  </select>
+                </div>
+              </div>
+
+              <!-- To Station -->
+              <div class="col-md-6">
+                <label for="toStation" class="form-label"> To Station </label>
+
+                <div class="input-wrapper">
+                  <i class="bi bi-geo input-icon"></i>
+
+                  <select
+                    id="toStation"
+                    class="form-select station-select"
+                    [(ngModel)]="selectedToStationId"
+                    [disabled]="selectedFromStationId === null"
+                  >
+                    <option [ngValue]="null">Select destination</option>
+
+                    @for (station of toStations; track station.stationId) {
+                      <option [ngValue]="station.stationId">
+                        {{ station.stationName }}
+                      </option>
+                    }
+                  </select>
+                </div>
+
+                @if (selectedFromStationId === null) {
+                  <div class="form-help">
+                    <i class="bi bi-info-circle me-1"></i>
+                    Select a From Station first.
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="action-buttons">
+              <button
+                type="button"
+                class="btn btn-search"
+                [disabled]="
+                  selectedFromStationId === null || selectedToStationId == null || isLoading()
+                "
+                (click)="searchFare()"
+              >
+                @if (isLoading()) {
+                  <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                  Loading...
+                } @else {
+                  <i class="bi bi-search me-2"></i>
+                  Search Fare
+                }
+              </button>
+
+              <button type="button" class="btn btn-clear" (click)="clear()">
+                <i class="bi bi-arrow-counterclockwise me-1"></i>
+                Clear
+              </button>
+            </div>
+
+            <!-- Results -->
+            @if (searched()) {
+              <div class="result-section">
+                <div class="result-heading">
+                  <div>
+                    <h5 class="mb-1">Fare Details</h5>
+                    <p class="mb-0">Review your journey and ticket fare.</p>
+                  </div>
+
+                  <span class="result-badge">
+                    {{ fareResults().length }} Result{{ fareResults().length !== 1 ? 's' : '' }}
+                  </span>
+                </div>
+
+                @if (fareResults().length > 0) {
+                  <div class="fare-summary">
+                    @for (result of fareResults(); track $index) {
+                      <!-- Journey -->
+                      <div class="journey-card">
+                        <!-- From -->
+                        <div class="station-point">
+                          <div class="station-code">
+                            {{ getStationCode(result.fromStation) }}
+                          </div>
+
+                          <div class="station-info">
+                            <span class="station-label">From Station</span>
+                            <strong>{{ result.fromStation }}</strong>
+                          </div>
+                        </div>
+
+                        <!-- Journey connector -->
+                        <div class="journey-connector">
+                          <span></span>
+                        </div>
+
+                        <!-- To -->
+                        <div class="station-point">
+                          <div class="station-code">
+                            {{ getStationCode(result.toStation) }}
+                          </div>
+
+                          <div class="station-info">
+                            <span class="station-label">To Station</span>
+                            <strong>{{ result.toStation }}</strong>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Distance & Fare -->
+                      <div class="fare-summary-grid">
+                        <!-- Distance -->
+                        <div class="fare-info">
+                          <div class="fare-info-icon">
+                            <i class="bi bi-signpost-2-fill"></i>
+                          </div>
+
+                          <div>
+                            <span>Distance</span>
+                            <strong> {{ result.distance | number: '1.2-2' }} km </strong>
+                          </div>
+                        </div>
+
+                        <!-- Fare -->
+                        <div class="fare-info fare-price">
+                          <div class="fare-info-icon">
+                            <i class="bi bi-cash-coin"></i>
+                          </div>
+
+                          <div>
+                            <span>Ticket Fare</span>
+                            <strong>{{ result.fare }} ৳</strong>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  </div>
+
+                  <!-- Payment Selection -->
+                  <div class="payment-selection">
+                    <!-- Payment Option Button -->
+                    <button
+                      type="button"
+                      class="btn btn-payment-option"
+                      (click)="onPaymentOptionClick()"
+                    >
+                      <i class="bi bi-credit-card me-2"></i>
+
+                      <span>
+                        @if (selectedPaymentMethod === 'balance') {
+                          Pay from Account Balance
+                        } @else if (selectedPaymentMethod === 'online') {
+                          Online Payment
+                        } @else {
+                          Select Payment Option
+                        }
+                      </span>
+
+                      <i
+                        class="bi ms-auto"
+                        [class.bi-chevron-down]="!showPaymentOptions"
+                        [class.bi-chevron-up]="showPaymentOptions"
+                      ></i>
+                    </button>
+
+                    <!-- Payment Options -->
+                    @if (showPaymentOptions) {
+                      <div class="payment-options">
+                        <!-- Account Balance -->
+                        <button
+                          type="button"
+                          class="payment-option"
+                          [class.selected]="selectedPaymentMethod === 'balance'"
+                          (click)="selectPaymentMethod('balance')"
+                        >
+                          <div class="payment-option-icon balance-icon">
+                            <i class="bi bi-wallet2"></i>
+                          </div>
+
+                          <div class="payment-option-content">
+                            <strong>Pay from Account Balance</strong>
+                            <span> Use your available account balance. </span>
+                          </div>
+
+                          <div class="payment-radio">
+                            <span></span>
+                          </div>
+                        </button>
+
+                        <!-- Online Payment -->
+                        <button
+                          type="button"
+                          class="payment-option"
+                          [class.selected]="selectedPaymentMethod === 'online'"
+                          (click)="selectPaymentMethod('online')"
+                        >
+                          <div class="payment-option-icon online-icon">
+                            <i class="bi bi-globe2"></i>
+                          </div>
+
+                          <div class="payment-option-content">
+                            <strong>Online Payment</strong>
+                            <span> Pay securely using an online payment method. </span>
+                          </div>
+
+                          <div class="payment-radio">
+                            <span></span>
+                          </div>
+                        </button>
+                      </div>
+                    }
+
+                    <!-- Buy Ticket -->
+                    <div class="buy-ticket-wrapper">
+                      <button
+                        type="button"
+                        class="btn btn-buy-ticket"
+                        [disabled]="selectedPaymentMethod === null"
+                        (click)="onBuyTicketButtonClick()"
+                      >
+                        <i class="bi bi-ticket-perforated me-2"></i>
+                        Buy Ticket
+                      </button>
+                    </div>
+                  </div>
+                } @else {
+                  <div class="empty-state">
+                    <div class="empty-icon">
+                      <i class="bi bi-info-circle"></i>
+                    </div>
+
+                    <div>
+                      <h6>No fare information found</h6>
+                      <p class="mb-0">
+                        We couldn't find distance or fare information for the selected stations.
+                      </p>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

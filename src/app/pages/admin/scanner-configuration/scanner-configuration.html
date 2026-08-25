@@ -1,0 +1,31 @@
+<main class="configuration-container">
+	<h2>Configure Scanner</h2>
+	<p class="configuration-intro">Choose the station and gate for this scanner.</p>
+
+	<div class="configuration-form">
+		<label>
+			Select Station
+			<select [(ngModel)]="selectedStationId">
+				<option [ngValue]="null">Choose a station</option>
+				@for (station of stations(); track station.stationId) {
+					<option [ngValue]="station.stationId">{{ station.stationName }}</option>
+				}
+			</select>
+		</label>
+
+		<label>
+			Select Gate
+			<select [(ngModel)]="selectedGate">
+				<option [ngValue]="null">Choose a gate</option>
+				<option [ngValue]="'Entry'">Entry</option>
+				<option [ngValue]="'Exit'">Exit</option>
+			</select>
+		</label>
+
+		<button type="button" (click)="configureScanner()">Configure</button>
+	</div>
+
+	@if (configurationMessage) {
+		<p class="configuration-message" role="alert">{{ configurationMessage }}</p>
+	}
+</main>
