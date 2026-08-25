@@ -17,6 +17,8 @@ import { PaymentOption } from './pages/payment/payment-option/payment-option';
 import { PayFromBalance } from './pages/payment/pay-from-balance/pay-from-balance';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Ticket } from './pages/journey/ticket/ticket';
+import { QrScanner } from './pages/journey/qr-scanner/qr-scanner';
+import { ScannerConfiguration } from './pages/admin/scanner-configuration/scanner-configuration';
 
 export const routes: Routes = [
     {
@@ -89,6 +91,14 @@ export const routes: Routes = [
     {
         path: 'tickets',
         component: Ticket,
+    },
+    {
+        path: 'select-scanner',
+        component: ScannerConfiguration,
+    },
+    {
+        path: 'qr-scanner',
+        component: QrScanner,
     },
     {
         path: 'not-found',

@@ -1,0 +1,23 @@
+<div class="scanner-container">
+
+  <h2>Scan Ticket</h2>
+
+  <div class="scanner-configuration" aria-label="Scanner configuration">
+    <span><strong>Station:</strong> {{ selectedStationName }}</span>
+    <span><strong>Gate:</strong> {{ selectedGate ?? 'Not selected' }}</span>
+  </div>
+
+  <zxing-scanner
+    [formats]="[BarcodeFormat.QR_CODE]"
+    [enable]="scannerEnabled"
+    [videoConstraints]="videoConstraints"
+    (scanSuccess)="onScanSuccess($event)"
+    (scanError)="onScanError($event)"
+    (permissionResponse)="onPermissionResponse($event)">
+  </zxing-scanner>
+
+  @if (scannerMessage) {
+    <h1 class="scanner-message" [class.success]="scannerMessageType === 'success'" [class.error]="scannerMessageType === 'error'" role="status">{{ scannerMessage }}</h1>
+  }
+
+</div>

@@ -275,6 +275,9 @@
   gap: 16px;
 }
 
+.detail:last-child{
+  text-align: right;
+}
 .dialog-download {
   width: 100%;
   margin-top: 24px;

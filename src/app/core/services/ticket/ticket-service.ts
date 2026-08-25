@@ -28,6 +28,17 @@ export class TicketService {
       responseType: 'blob',
     });
   }
+
+  sendScannedQrData(qrCode: string, stationId: number, gate: 'Entry' | 'Exit') {
+    return this.http.post<ScannerResponse | string>(
+      `https://localhost:7246/api/scanner/qr-data`, 
+      { qrCode, stationId, gate }
+    );
+  }
+}
+
+export interface ScannerResponse {
+  message?: string;
 }
 
 interface TicketResponseEnvelope {
