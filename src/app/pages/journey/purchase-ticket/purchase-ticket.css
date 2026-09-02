@@ -4,104 +4,67 @@
 
 .purchase-page {
   min-height: 100vh;
-  background: #f5f7fb;
+  background: linear-gradient(135deg, #f4f7ff 0%, #eefaf6 100%);
+  padding: clamp(22px, 4vw, 52px) 18px 56px;
 }
-
-
-/* ================================
-   Main Card
-================================ */
 
 .ticket-card {
-  background: #ffffff;
-  border: 1px solid #e8ebf0;
-  border-radius: 16px;
+  width: min(100%, 980px);
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #dfeaf0;
+  border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(31, 41, 55, 0.08);
+  box-shadow: 0 20px 45px rgba(15, 52, 79, 0.08);
 }
-
-
-/* ================================
-   Header
-================================ */
 
 .ticket-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 22px 28px;
-
   color: #ffffff;
-  background: linear-gradient(
-    135deg,
-    #0d6efd 0%,
-    #0758d8 100%
-  );
+  background: linear-gradient(135deg, #0c6774, #0a8b8e);
 }
 
 .ticket-header h4 {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 1.4rem;
+  font-weight: 800;
 }
 
 .ticket-header p {
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
 }
 
 .ticket-icon {
-  width: 46px;
-  height: 46px;
-
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-
   border-radius: 12px;
-
   background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.2);
-
-  font-size: 1.35rem;
+  font-size: 1.4rem;
 }
-
-
-/* ================================
-   Body
-================================ */
 
 .ticket-body {
   padding: 28px;
 }
 
-
-/* ================================
-   Form Labels
-================================ */
-
 .form-label {
   margin-bottom: 8px;
-
-  color: #263238;
-  font-size: 0.9rem;
-  font-weight: 600;
+  color: #17324d;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .required {
   color: #dc3545;
 }
-
-.optional {
-  color: #8993a4;
-  font-size: 0.82rem;
-  font-weight: 400;
-}
-
-
-/* ================================
-   Select Fields
-================================ */
 
 .input-wrapper {
   position: relative;
@@ -109,184 +72,132 @@
 
 .input-icon {
   position: absolute;
-  z-index: 2;
-
   top: 50%;
   left: 14px;
-
-  color: #6c757d;
+  color: #6b7d8b;
   font-size: 1rem;
-
   transform: translateY(-50%);
   pointer-events: none;
 }
 
 .station-select {
   min-height: 48px;
-
   padding-left: 42px;
-
-  color: #343a40;
-
-  border: 1px solid #dce1e7;
+  color: #17324d;
+  border: 1px solid #d8e4ea;
   border-radius: 10px;
-
-  background-color: #ffffff;
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .station-select:hover {
-  border-color: #b8c0cc;
+  border-color: #b9c9d3;
 }
 
 .station-select:focus {
-  border-color: #0d6efd;
-
-  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+  border-color: #0a7f8c;
+  box-shadow: 0 0 0 4px rgba(10, 127, 140, 0.08);
 }
 
 .station-select:disabled {
+  background: #f5f7f9;
+  color: #9ca7b4;
   cursor: not-allowed;
-  background-color: #f1f3f5;
-  color: #9aa1aa;
 }
-
-
-/* ================================
-   Form Help
-================================ */
 
 .form-help {
   margin-top: 7px;
-
-  color: #6c757d;
+  color: #6b7d8b;
   font-size: 0.8rem;
 }
 
-
-/* ================================
-   Action Buttons
-================================ */
-
 .action-buttons {
   display: flex;
-  gap: 10px;
-
+  gap: 12px;
   margin-top: 28px;
   padding-top: 24px;
-
-  border-top: 1px solid #edf0f3;
+  border-top: 1px solid #edf2f5;
 }
 
 .btn-search,
-.btn-clear {
-  min-height: 44px;
-
-  padding: 0 20px;
-
-  border-radius: 9px;
-
-  font-size: 0.9rem;
-  font-weight: 600;
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
+.btn-clear,
+.btn-payment-option,
+.btn-buy-ticket {
+  min-height: 46px;
+  border-radius: 10px;
+  border: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.btn-search {
-  color: #ffffff;
-  background: #0d6efd;
-  border: 1px solid #0d6efd;
+.btn-search,
+.btn-buy-ticket {
+  color: #fff;
+  background: linear-gradient(135deg, #0a7f8c, #0e5d6d);
+  box-shadow: 0 14px 24px rgba(8, 127, 140, 0.18);
 }
 
-.btn-search:hover:not(:disabled) {
-  background: #0b5ed7;
-  border-color: #0b5ed7;
-
+.btn-search:hover:not(:disabled),
+.btn-buy-ticket:hover:not(:disabled) {
   transform: translateY(-1px);
-
-  box-shadow: 0 5px 14px rgba(13, 110, 253, 0.25);
 }
 
-.btn-search:disabled {
+.btn-search:disabled,
+.btn-buy-ticket:disabled {
+  opacity: 0.65;
   cursor: not-allowed;
-  opacity: 0.6;
 }
 
 .btn-clear {
-  color: #495057;
-  background: #ffffff;
-  border: 1px solid #d8dde4;
+  color: #17324d;
+  background: #f6fafb;
+  border: 1px solid #dfeaf0;
 }
-
-.btn-clear:hover {
-  background: #f8f9fa;
-  border-color: #c4cad2;
-}
-
-
-/* ================================
-   Result Section
-================================ */
 
 .result-section {
   margin-top: 32px;
   padding-top: 28px;
-
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid #e9edf1;
 }
 
 .result-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
+  gap: 12px;
   margin-bottom: 18px;
 }
 
 .result-heading h5 {
-  color: #212529;
-  font-size: 1.05rem;
-  font-weight: 700;
+  color: #17324d;
+  font-size: 1.08rem;
+  font-weight: 800;
 }
 
 .result-heading p {
-  color: #7a8492;
+  color: #6b7d8b;
   font-size: 0.82rem;
 }
 
 .result-badge {
   display: inline-flex;
   align-items: center;
-
-  padding: 6px 11px;
-
-  color: #0d6efd;
-  background: #eaf3ff;
-
-  border-radius: 20px;
-
+  padding: 6px 12px;
+  color: #0c6774;
+  background: #eaf9fa;
+  border-radius: 999px;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-
-/* ================================
-   Fare Summary
-================================ */
 .fare-summary {
-  margin-top: 1.5rem;
+  margin-top: 1.2rem;
 }
 
 .journey-card {
-  padding: 1.25rem;
-  border: 1px solid #e9ecef;
+  padding: 1.2rem;
+  border: 1px solid #edf2f5;
   border-radius: 16px;
   background: #fff;
 }
@@ -300,19 +211,14 @@
 .station-code {
   width: 52px;
   height: 52px;
-  min-width: 52px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border-radius: 12px;
-
-  background: #eef4ff;
-  color: #0d6efd;
-
+  background: #edf6f7;
+  color: #0a7f8c;
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .station-info {
@@ -323,25 +229,23 @@
 
 .station-label {
   font-size: 0.72rem;
-  font-weight: 600;
-  color: #6c757d;
+  font-weight: 700;
+  color: #6b7d8b;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
 }
 
 .station-info strong {
   font-size: 1rem;
-  color: #212529;
+  color: #17324d;
 }
 
-/* Connector */
 .journey-connector {
   height: 24px;
   margin-left: 25px;
-  border-left: 2px dashed #ced4da;
+  border-left: 2px dashed #cfe0e9;
 }
 
-/* Distance & Fare */
 .fare-summary-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -354,8 +258,7 @@
   align-items: center;
   gap: 12px;
   padding: 1rem;
-
-  border: 1px solid #e9ecef;
+  border: 1px solid #edf2f5;
   border-radius: 14px;
   background: #fff;
 }
@@ -363,61 +266,214 @@
 .fare-info-icon {
   width: 42px;
   height: 42px;
-  min-width: 42px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border-radius: 10px;
-  background: #f1f3f5;
-  color: #495057;
-
-  font-size: 1.1rem;
+  background: #f2f7f8;
+  color: #0c6774;
 }
 
 .fare-info span {
   display: block;
   margin-bottom: 2px;
-
-  font-size: 0.75rem;
-  color: #6c757d;
+  font-size: 0.72rem;
+  color: #6b7d8b;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .fare-info strong {
   font-size: 1rem;
-  color: #212529;
+  color: #17324d;
 }
 
-/* Fare */
 .fare-price {
-  border-color: #b7e4c7;
+  border-color: #d8efd9;
   background: #f1faf4;
 }
 
 .fare-price .fare-info-icon {
-  background: #dff3e5;
-  color: #198754;
+  background: #def0e1;
+  color: #1d7d4a;
 }
 
 .fare-price strong {
-  color: #198754;
+  color: #1d7d4a;
   font-size: 1.15rem;
 }
 
+.payment-selection {
+  margin-top: 24px;
+}
+
+.btn-payment-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1rem;
+  background: #f7fafb;
+  border: 1px solid #dfeaf0;
+  color: #17324d;
+  font-weight: 700;
+}
+
+.payment-options {
+  margin-top: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.payment-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 14px;
+  border: 1px solid #dfeaf0;
+  border-radius: 12px;
+  background: #fff;
+  text-align: left;
+  color: #17324d;
+  cursor: pointer;
+}
+
+.payment-option.selected {
+  border-color: #0a7f8c;
+  box-shadow: 0 0 0 3px rgba(10, 127, 140, 0.07);
+}
+
+.payment-option-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 1.1rem;
+}
+
+.balance-icon {
+  background: #eaf9fa;
+  color: #0a7f8c;
+}
+
+.online-icon {
+  background: #eef5ff;
+  color: #2959d6;
+}
+
+.payment-option-content {
+  display: grid;
+  gap: 3px;
+  flex: 1;
+}
+
+.payment-option-content strong {
+  font-size: 0.96rem;
+}
+
+.payment-option-content span {
+  color: #6b7d8b;
+  font-size: 0.8rem;
+}
+
+.payment-radio {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid #d0dfe7;
+}
+
+.payment-option.selected .payment-radio {
+  border-color: #0a7f8c;
+  background: #0a7f8c;
+}
+
+.payment-option.selected .payment-radio span {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.buy-ticket-wrapper {
+  margin-top: 18px;
+}
+
+.btn-buy-ticket {
+  width: 100%;
+  padding: 0.95rem 1rem;
+}
+
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 18px 8px 0;
+}
+
+.empty-icon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #edf9f8;
+  color: #0a7f8c;
+  font-size: 1.2rem;
+}
+
+.empty-state h6 {
+  margin: 0;
+  color: #17324d;
+}
+
+.empty-state p {
+  margin: 0;
+  color: #6b7d8b;
+  max-width: 420px;
+}
+
 @media (max-width: 575.98px) {
+  .purchase-page {
+    padding: 18px 12px 34px;
+  }
+
+  .ticket-header {
+    padding: 18px 20px;
+  }
+
+  .ticket-body {
+    padding: 18px 14px 20px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .btn-search,
+  .btn-clear,
+  .btn-buy-ticket {
+    width: 100%;
+  }
+
+  .result-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .fare-summary-grid {
     grid-template-columns: 1fr;
   }
 }
 
-
-
-/* ================================
-   Station Names
-================================ */
-
-.station-name {
   display: flex;
   align-items: center;
   gap: 8px;
