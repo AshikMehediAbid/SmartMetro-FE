@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { PaymentMethod, WalletService } from '../../../core/services/Wallet/wallet-service';
+import { PaymentFor, PaymentMethod, WalletService } from '../../../core/services/Wallet/wallet-service';
 import { Router } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
 import { AuthService } from '../../../core/services/auth/auth-service';
@@ -95,7 +95,9 @@ export class PayFromBalance implements OnInit {
         fromStationId: fromStationId,
         toStationId: toStationId,
         userEmail: email,
-        paymentMethod : PaymentMethod.Account
+        amount: this.fare()?.fare ?? 0,
+        paymentMethod: PaymentMethod.AccountBalance,
+        paymentFor: PaymentFor.SingleJourney,
       })
       .subscribe({
         next: (response) => {

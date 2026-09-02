@@ -1,0 +1,126 @@
+.payment-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  background: linear-gradient(135deg, #f4f7ff 0%, #eefaf6 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.payment-card {
+  width: min(100%, 560px);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(16, 24, 40, 0.06);
+  border-radius: 24px;
+  box-shadow: 0 20px 45px rgba(31, 41, 55, 0.08);
+  padding: 32px 28px;
+  backdrop-filter: blur(10px);
+}
+
+.payment-badge {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+  font-size: 32px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.payment-badge.success {
+  background: linear-gradient(135deg, #d9fbe8, #c9f1d5);
+  color: #0c8f4d;
+}
+
+.payment-badge.failed {
+  background: linear-gradient(135deg, #ffe4e6, #ffd7d7);
+  color: #d93025;
+}
+
+.payment-badge.loading {
+  background: linear-gradient(135deg, #e8ecff, #dfe7ff);
+  color: #3d5afe;
+}
+
+.payment-title {
+  text-align: center;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 800;
+  margin: 0 0 10px;
+  color: #111827;
+}
+
+.payment-subtitle {
+  text-align: center;
+  color: #52607a;
+  margin: 0 0 22px;
+  line-height: 1.6;
+}
+
+.payment-details {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 18px 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.payment-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.96rem;
+  color: #1f2937;
+}
+
+.payment-row strong {
+  color: #0f172a;
+}
+
+.payment-row span {
+  text-align: right;
+  word-break: break-word;
+}
+
+.payment-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.payment-button {
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 20px;
+  cursor: pointer;
+  box-shadow: 0 12px 20px rgba(37, 99, 235, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.payment-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 26px rgba(37, 99, 235, 0.25);
+}
+
+@media (max-width: 576px) {
+  .payment-card {
+    padding: 24px 18px;
+    border-radius: 20px;
+  }
+
+  .payment-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .payment-row span {
+    text-align: left;
+  }
+}

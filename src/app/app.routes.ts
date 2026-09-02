@@ -19,6 +19,7 @@ import { Dashboard } from './pages/dashboard/dashboard';
 import { Ticket } from './pages/journey/ticket/ticket';
 import { QrScanner } from './pages/journey/qr-scanner/qr-scanner';
 import { ScannerConfiguration } from './pages/admin/scanner-configuration/scanner-configuration';
+import { PaymentSuccessful } from './pages/payment/payment-successful/payment-successful';
 
 export const routes: Routes = [
     {
@@ -83,6 +84,10 @@ export const routes: Routes = [
     {
         path: 'account-balance-payment',
         component: PayFromBalance,
+    },
+    {
+        path: 'payment-success',
+        component: PaymentSuccessful,
     },
     {
         path: 'dashboard',

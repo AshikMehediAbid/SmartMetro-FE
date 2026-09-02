@@ -4,7 +4,7 @@ import { TicketResponse } from '../../core/models/classes/TicketResponse';
 import { TicketStatus } from '../../core/enums/TicketStatus';
 import { AuthService } from '../../core/services/auth/auth-service';
 import { TicketService } from '../../core/services/ticket/ticket-service';
-import { WalletService } from '../../core/services/Wallet/wallet-service';
+import { PaymentFor, WalletService } from '../../core/services/Wallet/wallet-service';
 import { DatePipe, DecimalPipe } from '@angular/common';
 
 @Component({
@@ -95,7 +95,11 @@ export class Dashboard implements OnInit {
   }
 
   addMoney(): void {
-    this.router.navigate(['/payment-option']);
+    this.router.navigate(['/payment-option'], {
+      state: {
+        paymentFor: PaymentFor.WalletRecharge,
+      },
+    });
   }
 
   viewTickets(): void {
