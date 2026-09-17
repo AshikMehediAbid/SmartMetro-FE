@@ -20,6 +20,7 @@ import { Ticket } from './pages/journey/ticket/ticket';
 import { QrScanner } from './pages/journey/qr-scanner/qr-scanner';
 import { ScannerConfiguration } from './pages/admin/scanner-configuration/scanner-configuration';
 import { PaymentSuccessful } from './pages/payment/payment-successful/payment-successful';
+import { RapidPass } from './pages/journey/rapid-pass/rapid-pass';
 
 export const routes: Routes = [
     {
@@ -86,7 +87,7 @@ export const routes: Routes = [
         component: PayFromBalance,
     },
     {
-        path: 'payment-success',
+        path: 'payment-result',
         component: PaymentSuccessful,
     },
     {
@@ -96,6 +97,10 @@ export const routes: Routes = [
     {
         path: 'tickets',
         component: Ticket,
+    },
+    {
+        path: 'rapid-pass',
+        component: RapidPass,
     },
     {
         path: 'select-scanner',

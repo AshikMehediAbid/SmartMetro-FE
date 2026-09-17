@@ -1,0 +1,38 @@
+<section class="rapid-pass-page" aria-labelledby="rapid-pass-title">
+	<header class="page-header">
+		<p class="eyebrow">Always ready to ride</p>
+		<h1 id="rapid-pass-title">RapidPass QR</h1>
+		<p class="page-subtitle">Present this code at the gate for your RapidPass journey.</p>
+	</header>
+
+	@if (loading()) {
+		<div class="state-panel" aria-live="polite">
+			<span class="loading-spinner" aria-hidden="true"></span>
+			<strong>Loading your RapidPass QR</strong>
+		</div>
+	} @else if (errorMessage()) {
+		<div class="state-panel error-panel" role="alert">
+			<strong>Could not load your QR</strong>
+			<span>{{ errorMessage() }}</span>
+			<button type="button" class="retry-button" (click)="loadRapidPassQr()">Try again</button>
+		</div>
+	} @else if (qrCode(); as code) {
+		<div class="qr-panel">
+			<div class="qr-frame">
+				<img [src]="code" alt="RapidPass QR code" />
+			</div>
+			<div class="qr-caption">
+				<strong>Scan to enter</strong>
+				<span>Keep your QR code visible when you reach the gate.</span>
+				<button type="button" class="refresh-button" [disabled]="refreshing()" (click)="refreshRapidPassQr()">
+					{{ refreshing() ? 'Refreshing...' : 'Refresh QR' }}
+				</button>
+			</div>
+		</div>
+	} @else {
+		<div class="state-panel">
+			<strong>No RapidPass QR available</strong>
+			<span>Your RapidPass QR will appear here when it is active.</span>
+		</div>
+	}
+</section>

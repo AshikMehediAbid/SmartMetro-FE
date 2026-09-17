@@ -1,0 +1,14 @@
+:host { display: block; }
+.rapid-pass-page { max-width: 760px; margin: 0 auto; padding: clamp(28px, 5vw, 64px) clamp(16px, 4vw, 42px); color: #143247; }
+.page-header { margin-bottom: 28px; }
+.eyebrow { margin: 0 0 8px; color: #087f84; font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.page-header h1 { margin: 0 0 8px; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 500; line-height: 1; }
+.page-subtitle { margin: 0; color: #71848c; font-size: .95rem; }
+.qr-panel, .state-panel { border: 1px solid #dce7e8; border-radius: 8px; background: #fff; box-shadow: 0 7px 18px rgba(20, 50, 71, .045); }
+.qr-panel { padding: clamp(22px, 5vw, 42px); text-align: center; }
+.qr-frame { display: grid; width: min(100%, 390px); aspect-ratio: 1; margin: 0 auto 26px; place-items: center; padding: 18px; border: 1px solid #dce7e8; background: #f1f7f6; }
+.qr-frame img { display: block; width: 100%; height: 100%; object-fit: contain; background: #fff; }
+.qr-caption { display: grid; justify-items: center; gap: 7px; }.qr-caption strong { font-size: 1rem; }.qr-caption span, .state-panel span { color: #71848c; font-size: .84rem; }
+.refresh-button { margin-top: 8px; padding: 10px 16px; border: 0; border-radius: 5px; background: #075965; color: #fff; cursor: pointer; font: inherit; font-size: .8rem; font-weight: 800; }.refresh-button:hover { background: #05434c; }.refresh-button:disabled { cursor: wait; opacity: .65; }
+.state-panel { display: grid; justify-items: center; gap: 10px; padding: 62px 20px; text-align: center; }.error-panel { align-items: center; border-color: #f1d4ce; background: #fff8f6; }.error-panel strong { color: #a95746; }.retry-button { margin-top: 6px; padding: 10px 16px; border: 0; border-radius: 5px; background: #075965; color: #fff; cursor: pointer; font: inherit; font-size: .8rem; font-weight: 800; }.loading-spinner { width: 28px; height: 28px; border: 3px solid #d7e9e7; border-top-color: #087f84; border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }

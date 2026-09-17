@@ -26,6 +26,15 @@
 		<button type="button" class="add-money-button" (click)="addMoney()"><span aria-hidden="true">+</span> Add money</button>
 	</section>
 
+	<section class="rapid-pass-access" aria-labelledby="rapid-pass-access-title">
+		<div>
+			<p class="eyebrow">Fast gate access</p>
+			<h2 id="rapid-pass-access-title">Your RapidPass QR is ready</h2>
+			<p>Open your QR code before you reach the gate.</p>
+		</div>
+		<button type="button" class="rapid-pass-button" (click)="openRapidPass()">Open RapidPass QR <span aria-hidden="true">→</span></button>
+	</section>
+
 	<section class="stats-grid" aria-label="Ticket summary">
 		<article class="stat-card fresh-stat">
 			<span class="stat-icon" aria-hidden="true">◷</span>
@@ -40,6 +49,14 @@
 			<div><span class="stat-label">Expired tickets</span><strong>{{ expiredTickets().length }}</strong></div>
 		</article>
 	</section>
+	
+	<section class="quick-actions" aria-label="Quick actions">
+		<button type="button" class="quick-action primary-quick-action" (click)="buyTicket()"><span class="action-icon" aria-hidden="true">＋</span><span><strong>Buy ticket</strong><small>Plan a new journey</small></span><span aria-hidden="true">→</span></button>
+		<button type="button" class="quick-action" (click)="viewTickets()"><span class="action-icon" aria-hidden="true">▣</span><span><strong>My tickets</strong><small>View active and past tickets</small></span><span aria-hidden="true">→</span></button>
+		<button type="button" class="quick-action" (click)="viewJourneyHistory()"><span class="action-icon" aria-hidden="true">↗</span><span><strong>Journey history</strong><small>Review your travel activity</small></span><span aria-hidden="true">→</span></button>
+	</section>
+
+	<br>
 
 	<section class="content-grid">
 		<article class="panel recent-ticket-panel">
@@ -80,9 +97,4 @@
 		</article>
 	</section>
 
-	<section class="quick-actions" aria-label="Quick actions">
-		<button type="button" class="quick-action primary-quick-action" (click)="buyTicket()"><span class="action-icon" aria-hidden="true">＋</span><span><strong>Buy ticket</strong><small>Plan a new journey</small></span><span aria-hidden="true">→</span></button>
-		<button type="button" class="quick-action" (click)="viewTickets()"><span class="action-icon" aria-hidden="true">▣</span><span><strong>My tickets</strong><small>View active and past tickets</small></span><span aria-hidden="true">→</span></button>
-		<button type="button" class="quick-action" (click)="viewJourneyHistory()"><span class="action-icon" aria-hidden="true">↗</span><span><strong>Journey history</strong><small>Review your travel activity</small></span><span aria-hidden="true">→</span></button>
-	</section>
 </main>

@@ -113,4 +113,8 @@ export class Dashboard implements OnInit {
   viewJourneyHistory(): void {
     this.router.navigate(['/tickets'], { queryParams: { status: TicketStatus.Used } });
   }
+
+  openRapidPass(): void {
+    this.router.navigate(['/rapid-pass']);
+  }
 }

@@ -29,6 +29,16 @@ export class TicketService {
     });
   }
 
+  getRapidPassQr(): Observable<RapidPassQrResponse> {
+    return this.http.get<RapidPassQrResponse>(`${this.baseUrl}/rapidpass`);
+  }
+
+  
+  updateRapidPassQr(): Observable<RapidPassQrResponse> {
+    return this.http.put<RapidPassQrResponse>(`${this.baseUrl}/rapidpass`, null);
+  }
+
+
   sendScannedQrData(qrCode: string, stationId: number, gate: 'Entry' | 'Exit') {
     return this.http.post<ScannerResponse | string>(
       `https://localhost:7246/api/scanner/qr-data`, 
@@ -39,6 +49,11 @@ export class TicketService {
 
 export interface ScannerResponse {
   message?: string;
+}
+
+export interface RapidPassQrResponse {
+  qrCode?: string;
+  data?: string | { qrCode?: string };
 }
 
 interface TicketResponseEnvelope {

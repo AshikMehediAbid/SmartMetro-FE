@@ -284,9 +284,6 @@
   }
 }
 
-  transform: translateY(1px);
-}
-
 .keycloak-actions {
   align-items: flex-start;
 }
