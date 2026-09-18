@@ -40,11 +40,27 @@ export class CreateStation implements OnDestroy {
     this.stationService.getAllStations(1).subscribe({
       next: (response) => {
         this.stations.set(response.data ?? []);
+        this.autoFillDistances();
       },
       error: (error) => {
         console.error('Failed to load stations for insert order', error);
       },
     });
+  }
+
+  onInsertAfterChange(): void {
+    this.autoFillDistances();
+  }
+
+  private autoFillDistances(): void {
+    const previousStation = this.getSelectedStation();
+    const nextStation = this.getNextStation();
+
+    this.stationObj.update((station) => ({
+      ...station,
+      distanceFromPreviousStation: previousStation?.distanceFromNextStation ?? 0,
+      distanceFromNextStation: nextStation?.distanceFromPreviousStation ?? 0,
+    }));
   }
 
   onCreateStationClick() {

@@ -1,1 +1,90 @@
-<p>edit-station works!</p>
+<div class="container py-5">
+	<div class="row justify-content-center">
+		<div class="col-lg-8 col-md-10">
+			<div class="card shadow-sm border-0">
+				<div class="card-header bg-primary text-white py-3">
+					<h4 class="mb-0">Edit Station</h4>
+				</div>
+
+				@if (isLoading()) {
+					<div class="card-body p-5 text-center">
+						<div class="spinner-border text-primary" role="status"></div>
+						<p class="text-muted mt-2 mb-0">Loading station...</p>
+					</div>
+				} @else if (errorMessage() && station().stationId === 0) {
+					<div class="card-body p-4">
+						<div class="alert alert-danger mb-0" role="alert">{{ errorMessage() }}</div>
+					</div>
+				} @else {
+					<div class="card-body p-4">
+						@if (errorMessage()) {
+							<div class="alert alert-danger" role="alert">{{ errorMessage() }}</div>
+						}
+
+						<form (ngSubmit)="onUpdateStation()">
+							<div class="mb-3">
+								<label for="stationName" class="form-label">Station Name <span class="text-danger">*</span></label>
+								<input id="stationName" name="stationName" class="form-control" [(ngModel)]="station().stationName" required />
+							</div>
+
+							<div class="mb-3">
+								<label for="stationLocation" class="form-label">Station Location</label>
+								<input id="stationLocation" name="stationLocation" class="form-control" [(ngModel)]="station().stationLocation" />
+							</div>
+
+							<div class="row">
+								<div class="col-md-6 mb-3">
+									<label for="lat" class="form-label">Latitude</label>
+									<input id="lat" name="lat" type="number" step="any" class="form-control" [(ngModel)]="station().lat" />
+								</div>
+								<div class="col-md-6 mb-3">
+									<label for="long" class="form-label">Longitude</label>
+									<input id="long" name="long" type="number" step="any" class="form-control" [(ngModel)]="station().long" />
+								</div>
+							</div>
+
+							<div class="mb-3">
+								<label for="insertAfter" class="form-label">Insert After</label>
+								<select id="insertAfter" name="insertAfter" class="form-select" [(ngModel)]="station().insertAfter">
+									<option [ngValue]="0">At the beginning</option>
+									@for (item of stations(); track item.stationId) {
+										@if (item.stationId !== station().stationId) {
+											<option [ngValue]="item.stationOrder">{{ item.stationOrder }} - {{ item.stationName }}</option>
+										}
+									}
+								</select>
+							</div>
+
+							<div class="row">
+								@if (showPreviousDistance()) {
+								<div class="col-md-6 mb-3">
+									<label for="distanceFromPreviousStation" class="form-label">Distance From {{ getPreviousStationName() }}</label>
+									<input id="distanceFromPreviousStation" name="distanceFromPreviousStation" type="number" step="any" class="form-control" [(ngModel)]="station().distanceFromPreviousStation" />
+								</div>
+								}
+								@if (showNextDistance()) {
+								<div class="col-md-6 mb-3">
+									<label for="distanceFromNextStation" class="form-label">Distance From {{ getNextStationName() }}</label>
+									<input id="distanceFromNextStation" name="distanceFromNextStation" type="number" step="any" class="form-control" [(ngModel)]="station().distanceFromNextStation" />
+								</div>
+								}
+							</div>
+
+							<div class="form-check form-switch mb-4">
+								<input id="isActive" name="isActive" type="checkbox" class="form-check-input" [(ngModel)]="station().isActive" />
+								<label for="isActive" class="form-check-label">Active Station</label>
+							</div>
+
+							<div class="d-flex justify-content-end gap-2">
+								<button type="button" class="btn btn-outline-secondary" (click)="onCancel()">Cancel</button>
+								<button type="submit" class="btn btn-primary" [disabled]="isSaving()">
+									@if (isSaving()) { Saving... } @else { Save Changes }
+								</button>
+							</div>
+						</form>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+</div>

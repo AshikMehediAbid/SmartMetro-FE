@@ -13,6 +13,10 @@ export class StationService {
     return this.http.post(`${this.baseUrl}/create`, station);
   }
 
+  updateStation(stationId: number, station: StationUpdateModel) {
+    return this.http.put(`${this.baseUrl}/${stationId}`, station);
+  }
+
   getAllStations(orderHint: number) {
     return this.http.get<StationResponse<StationModel[]>>(`${this.baseUrl}/${orderHint}`);
   }
@@ -47,4 +51,16 @@ export interface StationFareResponse {
   toStation: string;
   distance: number;
   fare: number;
+}
+
+export interface StationUpdateModel {
+  stationId: number;
+  stationName: string;
+  stationLocation: string;
+  lat: number;
+  long: number;
+  isActive: boolean;
+  insertAfter: number;
+  distanceFromPreviousStation: number;
+  distanceFromNextStation: number;
 }
