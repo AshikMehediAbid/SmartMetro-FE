@@ -27,8 +27,8 @@ export class QrScanner {
   
   readonly videoConstraints: MediaTrackConstraints = {
     facingMode: { ideal: 'environment' },
-    width: { ideal: 1280 },
-    height: { ideal: 720 },
+    width: { ideal: 640 },
+    height: { ideal: 480 },
   };
 
   ngOnInit(): void {

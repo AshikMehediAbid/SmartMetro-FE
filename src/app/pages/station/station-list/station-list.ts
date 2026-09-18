@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { StationService } from '../../../core/services/station/station-service';
 import { Router } from '@angular/router';
+import { ToastService } from '../../../core/services/toast/toast-service';
 
 @Component({
   selector: 'app-station-list',
@@ -11,9 +12,11 @@ import { Router } from '@angular/router';
 export class StationList {
   stationService = inject(StationService);
   router = inject(Router);
+  private readonly toastService = inject(ToastService);
 
   stations = signal<StationModel[]>([]);
   isLoading = signal<boolean>(false);
+  deletingStationId = signal<number | null>(null);
 
   // 1 = ascending
   // 0 = descending
@@ -54,14 +57,19 @@ export class StationList {
       return;
     }
 
+    this.deletingStationId.set(stationId);
     this.stationService.deleteStation(stationId).subscribe({
       next: () => {
         this.stations.update((stations) =>
           stations.filter((station) => station.stationId !== stationId),
         );
+        this.deletingStationId.set(null);
+        this.toastService.success('Station deleted successfully.');
       },
       error: (error) => {
         console.error('Failed to delete station', error);
+        this.deletingStationId.set(null);
+        this.toastService.error('Failed to delete station. Please try again.');
       },
     });
   }
@@ -75,4 +83,6 @@ export interface StationModel {
   long: number;
   isActive: boolean;
   stationOrder : number;
+  distanceFromPreviousStation: number;
+  distanceFromNextStation: number;
 }

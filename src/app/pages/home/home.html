@@ -1,17 +1,78 @@
-<nav class="navbar">
-  <div class="navbar-brand">
-    <a>MyApp</a>
-  </div>
-  <div class="navbar-actions">
-    @if (!isLogin()) {
-      <button class="btn btn-login" (click)="onLoginClick()">Login</button>
-      <button class="btn btn-register" (click)="onRegisterClick()">Register</button>
-    } 
-    @else {
-      <button class="btn btn-logout" (click)="onProfileClick()">{{userName()}}</button>
-      <button class="btn btn-logout" (click)="onLogoutClick()">Logout</button>
-    }
-  </div>
-</nav>
+<div class="home-page">
+  <nav class="navbar" aria-label="Primary navigation">
+    <a class="brand" routerLink="/home" aria-label="SmartMetro home">
+      <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span>Smart<span>Metro</span></span>
+    </a>
 
-<h2 align="center">Welcome to MyApp</h2>
+    <div class="navbar-actions">
+      @if (!isLogin()) {
+        <button class="btn btn-login" type="button" (click)="onLoginClick()">Sign in</button>
+        <button class="btn btn-register" type="button" (click)="onRegisterClick()">Create account</button>
+      } @else {
+        <button class="profile-link" type="button" (click)="onProfileClick()">
+          <span class="avatar">{{ userName().charAt(0).toUpperCase() }}</span>
+          <span>{{ userName() }}</span>
+        </button>
+        <button class="btn btn-login" type="button" (click)="onLogoutClick()">Sign out</button>
+      }
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero-section">
+      <div class="hero-copy">
+        <p class="kicker"><span class="live-dot"></span> Move through the city with ease</p>
+        @if (isLogin()) {
+          <h1>Good to see you, <em>{{ userName() }}</em>.</h1>
+          <p class="hero-text">Your next journey is only a few taps away. Check your balance, find a fare, or get your ticket ready.</p>
+          <div class="hero-actions">
+            <button class="action-button primary-action" type="button" (click)="onBuyTicketClick()">Buy a ticket <span aria-hidden="true">→</span></button>
+            <button class="action-button secondary-action" type="button" (click)="onDashboardClick()">Open dashboard</button>
+          </div>
+        } @else {
+          <h1>The city is yours to <em>explore.</em></h1>
+          <p class="hero-text">Plan journeys, buy metro tickets, and move between stations without the queue.</p>
+          <div class="hero-actions">
+            <button class="action-button primary-action" type="button" (click)="onRegisterClick()">Start riding <span aria-hidden="true">→</span></button>
+            <button class="action-button secondary-action" type="button" (click)="onLoginClick()">I already have an account</button>
+          </div>
+        }
+      </div>
+
+      <div class="route-art" aria-label="Metro route overview">
+        <div class="route-art-header"><span>Today’s network</span><strong>SM</strong></div>
+        <div class="metro-map">
+          <span class="map-line line-one"></span>
+          <span class="map-line line-two"></span>
+          <span class="station-node node-one"><i></i><b>Uttara North</b></span>
+          <span class="station-node node-two"><i></i><b>Agargaon</b></span>
+          <span class="station-node node-three"><i></i><b>Motijheel</b></span>
+          <span class="station-node node-four"><i></i><b>Uttara South</b></span>
+        </div>
+        <div class="route-art-footer"><span><i></i> Service running</span><strong>Line 6</strong></div>
+      </div>
+    </section>
+
+    <section class="quick-section" aria-labelledby="quick-title">
+      <div class="section-heading"><p class="kicker">Your essentials</p><h2 id="quick-title">Everything for the next stop</h2></div>
+      <div class="quick-grid">
+        <button class="quick-item ticket-item" type="button" (click)="isLogin() ? onBuyTicketClick() : onLoginClick()">
+          <span class="quick-icon" aria-hidden="true">＋</span><span><strong>Buy a ticket</strong><small>Choose stations and pay securely</small></span><span class="quick-arrow" aria-hidden="true">↗</span>
+        </button>
+        <button class="quick-item" type="button" (click)="isLogin() ? onTicketsClick() : onLoginClick()">
+          <span class="quick-icon" aria-hidden="true">▣</span><span><strong>My tickets</strong><small>Keep your active trips close</small></span><span class="quick-arrow" aria-hidden="true">↗</span>
+        </button>
+        <button class="quick-item" type="button" (click)="onFareClick()">
+          <span class="quick-icon" aria-hidden="true">↔</span><span><strong>Check fare</strong><small>Compare distance and journey cost</small></span><span class="quick-arrow" aria-hidden="true">↗</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="trust-strip">
+      <div><strong>Simple journeys.</strong><span>Clear fares and ticket details before you travel.</span></div>
+      <div><strong>Ready when you are.</strong><span>Access your tickets from any device.</span></div>
+      <div><strong>Built for Dhaka.</strong><span>Move confidently across the metro line.</span></div>
+    </section>
+  </main>
+</div>

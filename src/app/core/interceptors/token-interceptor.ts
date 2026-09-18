@@ -1,6 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, from, switchMap, throwError } from 'rxjs';
+import { catchError, EMPTY, from, switchMap, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth-service';
 import { KeycloakService } from '../services/keycloak/keycloak-service';
 
@@ -9,6 +10,7 @@ const refreshTokenPath = '/account/token';
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const keycloakService = inject(KeycloakService);
+  const router = inject(Router);
   const isRefreshRequest =
     req.url.endsWith(refreshTokenPath) || req.url.includes(`${refreshTokenPath}?`);
 
@@ -55,16 +57,17 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   }
 
   return authService.getNewAccessToken().pipe(
+    catchError((error) => {
+      authService.clearStorage();
+      void router.navigate(['/home']);
+      return EMPTY;
+    }),
     switchMap((response) => {
       const newToken = response.data?.accessToken;
       if (newToken) {
         authService.saveToken(newToken);
       }
       return next(attachToken(newToken ?? accessToken));
-    }),
-    catchError((error) => {
-      authService.clearStorage();
-      return throwError(() => error);
     }),
   );
 };

@@ -1,0 +1,70 @@
+<div class="payment-page">
+  @if (loading()) {
+    <div class="payment-card">
+      <div class="payment-badge loading">⏳</div>
+      <h2 class="payment-title">Checking payment...</h2>
+      <p class="payment-subtitle">Please wait while we verify your transaction.</p>
+    </div>
+  }
+  @else if (error()) {
+    <div class="payment-card">
+      <div class="payment-badge failed">⚠️</div>
+      <h2 class="payment-title">Payment Error</h2>
+      <p class="payment-subtitle">{{ error() }}</p>
+    </div>
+  }
+  @else if (payment(); as p) {
+    @if (p.success || p.status?.toLowerCase() === 'paid' || p.status?.toLowerCase() === 'success' || p.status?.toLowerCase() === 'succeeded') {
+      <div class="payment-card">
+        <div class="payment-badge success">✓</div>
+        <h1 class="payment-title">Payment Successful</h1>
+        <p class="payment-subtitle">Your payment has been completed successfully.</p>
+
+        <div class="payment-details">
+          <div class="payment-row">
+            <strong>Transaction ID</strong>
+            <span>{{ p.transactionId }}</span>
+          </div>
+          <div class="payment-row">
+            <strong>Amount</strong>
+            <span>{{ p.amount }} {{ p.currency || 'BDT' }}</span>
+          </div>
+          <div class="payment-row">
+            <strong>Payment Method</strong>
+            <span>{{ p.paymentMethod || 'Online' }}</span>
+          </div>
+          <div class="payment-row">
+            <strong>Date</strong>
+            <span>{{ p.paidAt ? (p.paidAt | date:'medium') : 'N/A' }}</span>
+          </div>
+        </div>
+
+        <div class="payment-actions">
+          <button class="payment-button" type="button" routerLink="/dashboard">Go to Dashboard</button>
+        </div>
+      </div>
+    }
+    @else {
+      <div class="payment-card">
+        <div class="payment-badge failed">✕</div>
+        <h1 class="payment-title">Payment Failed</h1>
+        <p class="payment-subtitle">Your payment could not be completed. Please try again.</p>
+
+        <div class="payment-details">
+          <div class="payment-row">
+            <strong>Transaction ID</strong>
+            <span>{{ p.transactionId }}</span>
+          </div>
+          <div class="payment-row">
+            <strong>Status</strong>
+            <span>{{ p.status }}</span>
+          </div>
+        </div>
+
+        <div class="payment-actions">
+          <button class="payment-button" type="button" (click)="retryPayment()">Try Again</button>
+        </div>
+      </div>
+    }
+  }
+</div>

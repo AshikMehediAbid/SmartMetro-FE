@@ -95,6 +95,7 @@
                         type="button"
                         class="btn btn-sm btn-outline-primary action-btn"
                         title="Edit station"
+                        aria-label="Edit station"
                         (click)="onEdit(station.stationId)"
                       >
                         <i class="bi bi-pencil"></i>
@@ -105,9 +106,16 @@
                         type="button"
                         class="btn btn-sm btn-outline-danger action-btn"
                         title="Delete station"
+                        aria-label="Delete station"
+                        [disabled]="deletingStationId() === station.stationId"
+                        [attr.aria-busy]="deletingStationId() === station.stationId"
                         (click)="onDelete(station.stationId)"
                       >
-                        <i class="bi bi-trash"></i>
+                        @if (deletingStationId() === station.stationId) {
+                          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        } @else {
+                          <i class="bi bi-trash" aria-hidden="true"></i>
+                        }
                       </button>
                     </div>
                   </td>

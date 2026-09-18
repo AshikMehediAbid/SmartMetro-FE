@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TicketResponse } from '../../../core/models/classes/TicketResponse';
 import { TicketService } from '../../../core/services/ticket/ticket-service';
@@ -14,6 +15,7 @@ import { finalize } from 'rxjs';
 })
 export class Ticket {
   private ticketService = inject(TicketService);
+  private route = inject(ActivatedRoute);
 
   tickets = signal<TicketResponse[]>([]);
   selectedStatus = signal<TicketStatus>(TicketStatus.Fresh);
@@ -25,6 +27,13 @@ export class Ticket {
   readonly TicketStatus = TicketStatus;
 
   ngOnInit(): void {
+    const statusParam = this.route.snapshot.queryParamMap.get('status');
+    const requestedStatus = statusParam === null ? null : this.normalizeStatus(statusParam);
+
+    if (requestedStatus !== null) {
+      this.selectedStatus.set(requestedStatus);
+    }
+
     this.loadTickets();
   }
 

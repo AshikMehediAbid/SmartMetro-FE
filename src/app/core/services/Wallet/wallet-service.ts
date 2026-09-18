@@ -21,14 +21,21 @@ export class WalletService {
   }
 }
 export interface PurchaseTicketRequest {
-  fromStationId: number;
-  toStationId: number;
+  fromStationId?: number | null;
+  toStationId?: number | null;
   userEmail: string;
-  paymentMethod : PaymentMethod
+  amount: number;
+  paymentMethod: PaymentMethod;
+  paymentFor?: PaymentFor;
 }
 
-export enum PaymentMethod
-{
-  Online = 'Online',
-  Account = 'AccountBalance'
+export enum PaymentMethod {
+  Online = 1,
+  AccountBalance = 2,
+}
+
+export enum PaymentFor {
+  SingleJourney = 1,
+  RapidPass = 2,
+  WalletRecharge = 3,
 }

@@ -9,6 +9,7 @@ import { RecoverPassword } from './pages/auth/recover-password/recover-password'
 import { VerifyOtp } from './pages/verify-otp/verify-otp';
 import { CreateStation } from './pages/station/create-station/create-station';
 import { StationList } from './pages/station/station-list/station-list';
+import { EditStation } from './pages/station/edit-station/edit-station';
 import { NotFound } from './pages/not-found/not-found';
 import { Settings } from './pages/admin/settings/settings';
 import { StationDistanceAndFare } from './pages/station-distance-and-fare/station-distance-and-fare';
@@ -19,6 +20,8 @@ import { Dashboard } from './pages/dashboard/dashboard';
 import { Ticket } from './pages/journey/ticket/ticket';
 import { QrScanner } from './pages/journey/qr-scanner/qr-scanner';
 import { ScannerConfiguration } from './pages/admin/scanner-configuration/scanner-configuration';
+import { PaymentSuccessful } from './pages/payment/payment-successful/payment-successful';
+import { RapidPass } from './pages/journey/rapid-pass/rapid-pass';
 
 export const routes: Routes = [
     {
@@ -65,6 +68,10 @@ export const routes: Routes = [
         component: StationList,
     },
     {
+        path: 'stations/edit/:stationId',
+        component: EditStation,
+    },
+    {
         path: 'settings',
         component: Settings,
     },
@@ -85,12 +92,20 @@ export const routes: Routes = [
         component: PayFromBalance,
     },
     {
+        path: 'payment-result',
+        component: PaymentSuccessful,
+    },
+    {
         path: 'dashboard',
         component: Dashboard,
     },
     {
         path: 'tickets',
         component: Ticket,
+    },
+    {
+        path: 'rapid-pass',
+        component: RapidPass,
     },
     {
         path: 'select-scanner',
